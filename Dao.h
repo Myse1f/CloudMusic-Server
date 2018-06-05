@@ -7,6 +7,7 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSql>
 #include <QtDebug>
+#include "Model.h"
 
 class Dao {
 private:
@@ -15,6 +16,10 @@ private:
 public:
 	void connect();
 	void close();
+	Model getModel();
+	bool addModel(Model&);
+	bool modifyModel(Model&);
+	bool deleteModel(Model&);
 };
 
 #endif

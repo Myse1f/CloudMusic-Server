@@ -1,0 +1,70 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+message Header {
+	enum Type {
+		REQUEST = 0;
+		REPONSE = 1;
+	}
+	Type type = 1; //0 is request, 1 is reponse
+	
+	enum Resource {
+		LOGIN = 0;
+		REGISTER = 1;
+		SEARCH = 2;
+		COMMENT = 3;
+		LIKE = 4; //点赞
+		GETCOMMENTS = 5;
+		GETMUSICS = 6;
+		GETMUSICFILE = 7;
+		GETUSERS = 8;
+	}
+	Resource resource = 2;
+	
+	enum Status {
+		OK = 0;
+		UNAUTHORIZED = 1;
+		NOTFOUND = 2;
+		ERROR = 3;
+	}
+	Status status = 3; //200:OK, 401:unauthorized, 404:not found
+}
+
+message UserInfo {
+	string username = 1;
+	string password = 2;
+}
+
+message MusicInfo {
+	string name = 1;
+	string singer = 2;
+}
+
+message CommentInfo { 
+	string content = 1;
+	string usrname = 2;
+	string date = 3;
+	int64  thumb = 4;
+}
+
+message MusicList {
+	string username = 1;
+	repeated MusicInfo musicInfo = 2;
+}
+
+message MusicData {
+	bytes data = 1;
+}
+
+message CommentList {
+	repeated CommentInfo commentInfo = 1;
+}
+
+message UserList {
+	repeated UserInfo userInfo = 1;
+}
+
+message Datapackage {
+	Header header = 1;
+	google.protobuf.Any body = 2;
+}
