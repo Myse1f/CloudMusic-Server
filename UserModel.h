@@ -8,8 +8,6 @@ class UserModel : public Model {
 public:
 	Model();
 	Model(std::string name, std::string pass);
-	void setId(int id);
-	int getId();
 	std::string getName();
 	std::string getPass();
 	Type getModelType();
