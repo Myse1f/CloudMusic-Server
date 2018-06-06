@@ -11,8 +11,8 @@ typedef enum Type_ {
 
 class Model {
 public:
-	Model() { this->id = -1 };
-	virtual int getModelType() = 0;
+	Model() { this->id = -1; }
+	virtual Type getModelType() = 0;
 	void setId(int id) { this->id = id; }
 	int getId() { return this->id; }
 protected:

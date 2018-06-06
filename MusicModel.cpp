@@ -6,7 +6,7 @@ MusicModel::MusicModel() {
 	MusicModel("", "");
 }
 
-MusicModel::Music(string name, string singer) {
+MusicModel::MusicModel(string name, string singer) {
 	this->name = name;
 	this->singer = singer;
 }
@@ -19,6 +19,6 @@ string MusicModel::getSinger() {
 	return this->singer;
 }
 
-Type getModelType() {
+Type MusicModel::getModelType() {
 	return music;
 }

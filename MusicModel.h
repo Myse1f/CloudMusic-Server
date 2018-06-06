@@ -6,8 +6,8 @@
 
 class MusicModel : public Model {
 public:
-	Music();
-	Music(std::string name, std::string singer);
+	MusicModel();
+	MusicModel(std::string name, std::string singer);
 	std::string getName();
 	std::string getSinger();
 	Type getModelType();
