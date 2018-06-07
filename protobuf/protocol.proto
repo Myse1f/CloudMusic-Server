@@ -11,13 +11,14 @@ message Header {
 	enum Resource {
 		LOGIN = 0;
 		REGISTER = 1;
-		SEARCH = 2;
-		COMMENT = 3;
-		LIKE = 4; //点赞
-		GETCOMMENTS = 5;
-		GETMUSICS = 6;
-		GETMUSICFILE = 7;
-		GETUSERS = 8;
+		SEARCHMUSIC = 2;
+		SEARCHUSER = 3;
+		COMMENT = 4;
+		LIKE = 5; //点赞
+		GETCOMMENTS = 6;
+		GETMUSICS = 7;
+		GETMUSICFILE = 8;
+		GETUSERS = 9;
 	}
 	Resource resource = 2;
 	
