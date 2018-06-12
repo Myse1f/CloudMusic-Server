@@ -37,3 +37,7 @@ string CommentModel::getDate() {
 Type CommentModel::getModelType() {
     return comment;
 }
+
+CommentModel::~CommentModel() {
+    
+}

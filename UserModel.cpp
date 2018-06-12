@@ -22,3 +22,7 @@ string UserModel::getPass() {
 Type UserModel::getModelType() {
 	return user;
 }
+
+UserModel::~UserModel() {
+	
+}

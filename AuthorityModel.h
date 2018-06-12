@@ -7,6 +7,7 @@
 class AuthorityModel : public Model {
 public:
     AuthorityModel();
+    ~AuthorityModel();
     AuthorityModel(std::string name);
     std::string getName();
     Type getModelType();

@@ -22,3 +22,7 @@ string MusicModel::getSinger() {
 Type MusicModel::getModelType() {
 	return music;
 }
+
+MusicModel::~MusicModel() {
+	
+}

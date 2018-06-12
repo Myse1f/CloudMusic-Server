@@ -18,3 +18,6 @@ Type AuthorityModel::getModelType() {
     return authority;
 }
 
+AuthorityModel::~AuthorityModel() {
+    
+}

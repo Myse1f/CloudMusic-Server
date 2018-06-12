@@ -42,10 +42,11 @@ message MusicInfo {
 }
 
 message CommentInfo { 
-	string content = 1;
-	string usrname = 2;
-	string date = 3;
-	int64  thumb = 4;
+	int32 id = 1;
+	string content = 2;
+	string usrname = 3;
+	string date = 4;
+	int32  thumb = 5;
 }
 
 message MusicList {

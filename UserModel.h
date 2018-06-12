@@ -6,8 +6,9 @@
 
 class UserModel : public Model {
 public:
-	Model();
-	Model(std::string name, std::string pass);
+	UserModel();
+	~UserModel();
+	UserModel(std::string name, std::string pass);
 	std::string getName();
 	std::string getPass();
 	Type getModelType();
@@ -15,6 +16,6 @@ public:
 private:
 	std::string username;
 	std::string password;
-}
+};
 
 #endif
