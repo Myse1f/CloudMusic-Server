@@ -44,9 +44,9 @@ CREATE TABLE music(
 
 CREATE TABLE comment(
 	id int NOT NULL AUTO_INCREMENT,
+	content longtext,
 	musicId int,
 	userId int,
-	content longtext,
 	thumb int,
 	date date,
 	PRIMARY KEY (id),
