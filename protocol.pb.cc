@@ -290,6 +290,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CommentInfo, id_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CommentInfo, content_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CommentInfo, usrname_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CommentInfo, date_),
@@ -332,11 +333,11 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 8, -1, sizeof(::UserInfo)},
   { 15, -1, sizeof(::MusicInfo)},
   { 22, -1, sizeof(::CommentInfo)},
-  { 31, -1, sizeof(::MusicList)},
-  { 38, -1, sizeof(::MusicData)},
-  { 44, -1, sizeof(::CommentList)},
-  { 50, -1, sizeof(::UserList)},
-  { 56, -1, sizeof(::Datapackage)},
+  { 32, -1, sizeof(::MusicList)},
+  { 39, -1, sizeof(::MusicData)},
+  { 45, -1, sizeof(::CommentList)},
+  { 51, -1, sizeof(::UserList)},
+  { 57, -1, sizeof(::Datapackage)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -374,29 +375,30 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016protocol.proto\032\031google/protobuf/any.pr"
-      "oto\"\320\002\n\006Header\022\032\n\004type\030\001 \001(\0162\014.Header.Ty"
+      "oto\"\345\002\n\006Header\022\032\n\004type\030\001 \001(\0162\014.Header.Ty"
       "pe\022\"\n\010resource\030\002 \001(\0162\020.Header.Resource\022\036"
       "\n\006status\030\003 \001(\0162\016.Header.Status\" \n\004Type\022\013"
-      "\n\007REQUEST\020\000\022\013\n\007REPONSE\020\001\"\206\001\n\010Resource\022\t\n"
-      "\005LOGIN\020\000\022\014\n\010REGISTER\020\001\022\n\n\006SEARCH\020\002\022\013\n\007CO"
-      "MMENT\020\003\022\010\n\004LIKE\020\004\022\017\n\013GETCOMMENTS\020\005\022\r\n\tGE"
-      "TMUSICS\020\006\022\020\n\014GETMUSICFILE\020\007\022\014\n\010GETUSERS\020"
-      "\010\";\n\006Status\022\006\n\002OK\020\000\022\020\n\014UNAUTHORIZED\020\001\022\014\n"
-      "\010NOTFOUND\020\002\022\t\n\005ERROR\020\003\".\n\010UserInfo\022\020\n\010us"
-      "ername\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\")\n\tMusicI"
-      "nfo\022\014\n\004name\030\001 \001(\t\022\016\n\006singer\030\002 \001(\t\"L\n\013Com"
-      "mentInfo\022\017\n\007content\030\001 \001(\t\022\017\n\007usrname\030\002 \001"
-      "(\t\022\014\n\004date\030\003 \001(\t\022\r\n\005thumb\030\004 \001(\003\"<\n\tMusic"
-      "List\022\020\n\010username\030\001 \001(\t\022\035\n\tmusicInfo\030\002 \003("
-      "\0132\n.MusicInfo\"\031\n\tMusicData\022\014\n\004data\030\001 \001(\014"
-      "\"0\n\013CommentList\022!\n\013commentInfo\030\001 \003(\0132\014.C"
-      "ommentInfo\"\'\n\010UserList\022\033\n\010userInfo\030\001 \003(\013"
-      "2\t.UserInfo\"J\n\013Datapackage\022\027\n\006header\030\001 \001"
-      "(\0132\007.Header\022\"\n\004body\030\002 \001(\0132\024.google.proto"
-      "buf.Anyb\006proto3"
+      "\n\007REQUEST\020\000\022\013\n\007REPONSE\020\001\"\233\001\n\010Resource\022\t\n"
+      "\005LOGIN\020\000\022\014\n\010REGISTER\020\001\022\017\n\013SEARCHMUSIC\020\002\022"
+      "\016\n\nSEARCHUSER\020\003\022\013\n\007COMMENT\020\004\022\010\n\004LIKE\020\005\022\017"
+      "\n\013GETCOMMENTS\020\006\022\r\n\tGETMUSICS\020\007\022\020\n\014GETMUS"
+      "ICFILE\020\010\022\014\n\010GETUSERS\020\t\";\n\006Status\022\006\n\002OK\020\000"
+      "\022\020\n\014UNAUTHORIZED\020\001\022\014\n\010NOTFOUND\020\002\022\t\n\005ERRO"
+      "R\020\003\".\n\010UserInfo\022\020\n\010username\030\001 \001(\t\022\020\n\010pas"
+      "sword\030\002 \001(\t\")\n\tMusicInfo\022\014\n\004name\030\001 \001(\t\022\016"
+      "\n\006singer\030\002 \001(\t\"X\n\013CommentInfo\022\n\n\002id\030\001 \001("
+      "\005\022\017\n\007content\030\002 \001(\t\022\017\n\007usrname\030\003 \001(\t\022\014\n\004d"
+      "ate\030\004 \001(\t\022\r\n\005thumb\030\005 \001(\005\"<\n\tMusicList\022\020\n"
+      "\010username\030\001 \001(\t\022\035\n\tmusicInfo\030\002 \003(\0132\n.Mus"
+      "icInfo\"\031\n\tMusicData\022\014\n\004data\030\001 \001(\014\"0\n\013Com"
+      "mentList\022!\n\013commentInfo\030\001 \003(\0132\014.CommentI"
+      "nfo\"\'\n\010UserList\022\033\n\010userInfo\030\001 \003(\0132\t.User"
+      "Info\"J\n\013Datapackage\022\027\n\006header\030\001 \001(\0132\007.He"
+      "ader\022\"\n\004body\030\002 \001(\0132\024.google.protobuf.Any"
+      "b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 815);
+      descriptor, 848);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "protocol.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fany_2eproto::AddDescriptors();
@@ -449,6 +451,7 @@ bool Header_Resource_IsValid(int value) {
     case 6:
     case 7:
     case 8:
+    case 9:
       return true;
     default:
       return false;
@@ -458,7 +461,8 @@ bool Header_Resource_IsValid(int value) {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const Header_Resource Header::LOGIN;
 const Header_Resource Header::REGISTER;
-const Header_Resource Header::SEARCH;
+const Header_Resource Header::SEARCHMUSIC;
+const Header_Resource Header::SEARCHUSER;
 const Header_Resource Header::COMMENT;
 const Header_Resource Header::LIKE;
 const Header_Resource Header::GETCOMMENTS;
@@ -1448,6 +1452,7 @@ void MusicInfo::InternalSwap(MusicInfo* other) {
 void CommentInfo::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int CommentInfo::kIdFieldNumber;
 const int CommentInfo::kContentFieldNumber;
 const int CommentInfo::kUsrnameFieldNumber;
 const int CommentInfo::kDateFieldNumber;
@@ -1479,7 +1484,9 @@ CommentInfo::CommentInfo(const CommentInfo& from)
   if (from.date().size() > 0) {
     date_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.date_);
   }
-  thumb_ = from.thumb_;
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&thumb_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(thumb_));
   // @@protoc_insertion_point(copy_constructor:CommentInfo)
 }
 
@@ -1487,7 +1494,9 @@ void CommentInfo::SharedCtor() {
   content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   usrname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   date_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  thumb_ = GOOGLE_LONGLONG(0);
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&thumb_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(thumb_));
   _cached_size_ = 0;
 }
 
@@ -1534,7 +1543,9 @@ void CommentInfo::Clear() {
   content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   usrname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  thumb_ = GOOGLE_LONGLONG(0);
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&thumb_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(thumb_));
   _internal_metadata_.Clear();
 }
 
@@ -1548,10 +1559,24 @@ bool CommentInfo::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string content = 1;
+      // int32 id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &id_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string content = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_content()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -1564,10 +1589,10 @@ bool CommentInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // string usrname = 2;
-      case 2: {
+      // string usrname = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_usrname()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -1580,10 +1605,10 @@ bool CommentInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // string date = 3;
-      case 3: {
+      // string date = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_date()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -1596,13 +1621,13 @@ bool CommentInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // int64 thumb = 4;
-      case 4: {
+      // int32 thumb = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &thumb_)));
         } else {
           goto handle_unusual;
@@ -1636,39 +1661,44 @@ void CommentInfo::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string content = 1;
+  // int32 id = 1;
+  if (this->id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->id(), output);
+  }
+
+  // string content = 2;
   if (this->content().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->content().data(), static_cast<int>(this->content().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "CommentInfo.content");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->content(), output);
+      2, this->content(), output);
   }
 
-  // string usrname = 2;
+  // string usrname = 3;
   if (this->usrname().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->usrname().data(), static_cast<int>(this->usrname().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "CommentInfo.usrname");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->usrname(), output);
+      3, this->usrname(), output);
   }
 
-  // string date = 3;
+  // string date = 4;
   if (this->date().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->date().data(), static_cast<int>(this->date().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "CommentInfo.date");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->date(), output);
+      4, this->date(), output);
   }
 
-  // int64 thumb = 4;
+  // int32 thumb = 5;
   if (this->thumb() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->thumb(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->thumb(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1685,7 +1715,12 @@ void CommentInfo::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string content = 1;
+  // int32 id = 1;
+  if (this->id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->id(), target);
+  }
+
+  // string content = 2;
   if (this->content().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->content().data(), static_cast<int>(this->content().length()),
@@ -1693,10 +1728,10 @@ void CommentInfo::SerializeWithCachedSizes(
       "CommentInfo.content");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->content(), target);
+        2, this->content(), target);
   }
 
-  // string usrname = 2;
+  // string usrname = 3;
   if (this->usrname().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->usrname().data(), static_cast<int>(this->usrname().length()),
@@ -1704,10 +1739,10 @@ void CommentInfo::SerializeWithCachedSizes(
       "CommentInfo.usrname");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->usrname(), target);
+        3, this->usrname(), target);
   }
 
-  // string date = 3;
+  // string date = 4;
   if (this->date().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->date().data(), static_cast<int>(this->date().length()),
@@ -1715,12 +1750,12 @@ void CommentInfo::SerializeWithCachedSizes(
       "CommentInfo.date");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->date(), target);
+        4, this->date(), target);
   }
 
-  // int64 thumb = 4;
+  // int32 thumb = 5;
   if (this->thumb() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->thumb(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->thumb(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1740,31 +1775,38 @@ size_t CommentInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // string content = 1;
+  // string content = 2;
   if (this->content().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->content());
   }
 
-  // string usrname = 2;
+  // string usrname = 3;
   if (this->usrname().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->usrname());
   }
 
-  // string date = 3;
+  // string date = 4;
   if (this->date().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->date());
   }
 
-  // int64 thumb = 4;
+  // int32 id = 1;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->id());
+  }
+
+  // int32 thumb = 5;
   if (this->thumb() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->thumb());
   }
 
@@ -1809,6 +1851,9 @@ void CommentInfo::MergeFrom(const CommentInfo& from) {
 
     date_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.date_);
   }
+  if (from.id() != 0) {
+    set_id(from.id());
+  }
   if (from.thumb() != 0) {
     set_thumb(from.thumb());
   }
@@ -1841,6 +1886,7 @@ void CommentInfo::InternalSwap(CommentInfo* other) {
   content_.Swap(&other->content_);
   usrname_.Swap(&other->usrname_);
   date_.Swap(&other->date_);
+  swap(id_, other->id_);
   swap(thumb_, other->thumb_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

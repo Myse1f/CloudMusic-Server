@@ -17,3 +17,6 @@ string RoleModel::getName() {
 Type RoleModel::getModelType() {
     return role;
 }
+
+RoleModel::~RoleModel() {
+}

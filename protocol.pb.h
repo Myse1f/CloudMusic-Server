@@ -126,13 +126,14 @@ inline bool Header_Type_Parse(
 enum Header_Resource {
   Header_Resource_LOGIN = 0,
   Header_Resource_REGISTER = 1,
-  Header_Resource_SEARCH = 2,
-  Header_Resource_COMMENT = 3,
-  Header_Resource_LIKE = 4,
-  Header_Resource_GETCOMMENTS = 5,
-  Header_Resource_GETMUSICS = 6,
-  Header_Resource_GETMUSICFILE = 7,
-  Header_Resource_GETUSERS = 8,
+  Header_Resource_SEARCHMUSIC = 2,
+  Header_Resource_SEARCHUSER = 3,
+  Header_Resource_COMMENT = 4,
+  Header_Resource_LIKE = 5,
+  Header_Resource_GETCOMMENTS = 6,
+  Header_Resource_GETMUSICS = 7,
+  Header_Resource_GETMUSICFILE = 8,
+  Header_Resource_GETUSERS = 9,
   Header_Resource_Header_Resource_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Header_Resource_Header_Resource_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
@@ -287,8 +288,10 @@ class Header : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
     Header_Resource_LOGIN;
   static const Resource REGISTER =
     Header_Resource_REGISTER;
-  static const Resource SEARCH =
-    Header_Resource_SEARCH;
+  static const Resource SEARCHMUSIC =
+    Header_Resource_SEARCHMUSIC;
+  static const Resource SEARCHUSER =
+    Header_Resource_SEARCHUSER;
   static const Resource COMMENT =
     Header_Resource_COMMENT;
   static const Resource LIKE =
@@ -711,9 +714,9 @@ class CommentInfo : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // string content = 1;
+  // string content = 2;
   void clear_content();
-  static const int kContentFieldNumber = 1;
+  static const int kContentFieldNumber = 2;
   const ::std::string& content() const;
   void set_content(const ::std::string& value);
   #if LANG_CXX11
@@ -725,9 +728,9 @@ class CommentInfo : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_content();
   void set_allocated_content(::std::string* content);
 
-  // string usrname = 2;
+  // string usrname = 3;
   void clear_usrname();
-  static const int kUsrnameFieldNumber = 2;
+  static const int kUsrnameFieldNumber = 3;
   const ::std::string& usrname() const;
   void set_usrname(const ::std::string& value);
   #if LANG_CXX11
@@ -739,9 +742,9 @@ class CommentInfo : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_usrname();
   void set_allocated_usrname(::std::string* usrname);
 
-  // string date = 3;
+  // string date = 4;
   void clear_date();
-  static const int kDateFieldNumber = 3;
+  static const int kDateFieldNumber = 4;
   const ::std::string& date() const;
   void set_date(const ::std::string& value);
   #if LANG_CXX11
@@ -753,11 +756,17 @@ class CommentInfo : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_date();
   void set_allocated_date(::std::string* date);
 
-  // int64 thumb = 4;
+  // int32 id = 1;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  ::google::protobuf::int32 id() const;
+  void set_id(::google::protobuf::int32 value);
+
+  // int32 thumb = 5;
   void clear_thumb();
-  static const int kThumbFieldNumber = 4;
-  ::google::protobuf::int64 thumb() const;
-  void set_thumb(::google::protobuf::int64 value);
+  static const int kThumbFieldNumber = 5;
+  ::google::protobuf::int32 thumb() const;
+  void set_thumb(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:CommentInfo)
  private:
@@ -766,7 +775,8 @@ class CommentInfo : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::internal::ArenaStringPtr content_;
   ::google::protobuf::internal::ArenaStringPtr usrname_;
   ::google::protobuf::internal::ArenaStringPtr date_;
-  ::google::protobuf::int64 thumb_;
+  ::google::protobuf::int32 id_;
+  ::google::protobuf::int32 thumb_;
   mutable int _cached_size_;
   friend struct ::protobuf_protocol_2eproto::TableStruct;
   friend void ::protobuf_protocol_2eproto::InitDefaultsCommentInfoImpl();
@@ -1597,7 +1607,21 @@ inline void MusicInfo::set_allocated_singer(::std::string* singer) {
 
 // CommentInfo
 
-// string content = 1;
+// int32 id = 1;
+inline void CommentInfo::clear_id() {
+  id_ = 0;
+}
+inline ::google::protobuf::int32 CommentInfo::id() const {
+  // @@protoc_insertion_point(field_get:CommentInfo.id)
+  return id_;
+}
+inline void CommentInfo::set_id(::google::protobuf::int32 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:CommentInfo.id)
+}
+
+// string content = 2;
 inline void CommentInfo::clear_content() {
   content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1650,7 +1674,7 @@ inline void CommentInfo::set_allocated_content(::std::string* content) {
   // @@protoc_insertion_point(field_set_allocated:CommentInfo.content)
 }
 
-// string usrname = 2;
+// string usrname = 3;
 inline void CommentInfo::clear_usrname() {
   usrname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1703,7 +1727,7 @@ inline void CommentInfo::set_allocated_usrname(::std::string* usrname) {
   // @@protoc_insertion_point(field_set_allocated:CommentInfo.usrname)
 }
 
-// string date = 3;
+// string date = 4;
 inline void CommentInfo::clear_date() {
   date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1756,15 +1780,15 @@ inline void CommentInfo::set_allocated_date(::std::string* date) {
   // @@protoc_insertion_point(field_set_allocated:CommentInfo.date)
 }
 
-// int64 thumb = 4;
+// int32 thumb = 5;
 inline void CommentInfo::clear_thumb() {
-  thumb_ = GOOGLE_LONGLONG(0);
+  thumb_ = 0;
 }
-inline ::google::protobuf::int64 CommentInfo::thumb() const {
+inline ::google::protobuf::int32 CommentInfo::thumb() const {
   // @@protoc_insertion_point(field_get:CommentInfo.thumb)
   return thumb_;
 }
-inline void CommentInfo::set_thumb(::google::protobuf::int64 value) {
+inline void CommentInfo::set_thumb(::google::protobuf::int32 value) {
   
   thumb_ = value;
   // @@protoc_insertion_point(field_set:CommentInfo.thumb)

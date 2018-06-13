@@ -7,6 +7,7 @@
 class RoleModel : public Model {
 public:
     RoleModel();
+	~RoleModel();
     RoleModel(std::string name);
     std::string getName();
     Type getModelType();
