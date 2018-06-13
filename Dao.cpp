@@ -20,7 +20,7 @@ void Dao::connect() {
 	db.setUserName("root");
 	db.setPassword("xxxxxx"); //secret
 	if(!db.open()) {
-		QDebug() << "Database open failed! Check the password!";
+		qDebug() << "Database open failed! Check the password!";
 	}
 	exit(-1);
 }
@@ -50,9 +50,8 @@ Model* Dao::getModelById(Type type, int id) {
 				p = new UserModel(username, password);
 				p->setId(id);
 			}
-		}
-			
 			break;
+		}		
 
 		case music: {
 			query.prepare("SELECT * FROM music where id = :id");
@@ -64,8 +63,7 @@ Model* Dao::getModelById(Type type, int id) {
 				singer = query.value(2).toString().toStdString();
 				p = new MusicModel(name, singer);
 				p->setId(id);
-			}
-			
+			}			
 			break;
 		}
 
@@ -78,8 +76,7 @@ Model* Dao::getModelById(Type type, int id) {
 				name = query.value(1).toString().toStdString();
 				p = new RoleModel(name);
 				p->setId(id);
-			}
-			
+			}			
 			break;
 		}
 
@@ -93,7 +90,6 @@ Model* Dao::getModelById(Type type, int id) {
 				p = new AuthorityModel(name);
 				p->setId(id);
 			}
-
 			break;
 		}
 		case comment: {
@@ -111,7 +107,6 @@ Model* Dao::getModelById(Type type, int id) {
 				p = new CommentModel(content, userId, musicId, thumb, date);
 				p->setId(id);
 			}
-
 			break;
 		}
 
@@ -284,4 +279,96 @@ bool Dao::deleteModel(Model& model) {
 		default: return false;
 	}
 	return query.lastError().type() == QSqlError::NoError;
+}
+
+vector<int>& Dao::getAuthoritiesByUserId(int userId) {
+	vector<int>* v = new vector<int>();
+	int roleId, authId;
+	QSqlQuery query(db);
+	//userId == 1 : the user is guest
+	query.prepare("SELECT * FROM user_role WHERE userId = :userId");
+	query.bindValue(":userId", userId);
+	query.exec();
+	//here one user has only one role, we dont extend it
+	if(query.next())
+		roleId = query.value(1).toInt();
+	query.prepare("SELECT * FROM role_auth WHERE roleId = :roleId");
+	query.bindValue(":roleId", roleId);
+	while(query.next()) {
+		authId = query.value(1).toInt();
+		v->push_back(authId);
+	}
+	return *v;	// must remember to free the memory
+}
+
+vector<int>& Dao::getMusicsByUserId(int userId) {
+	vector<int>* v = new vector<int>();
+	int musicId;
+	QSqlQuery query(db);
+	query.prepare("SELECT * FROM userMusic WHERE userId = :userId");
+	query.bindValue(":userId", userId);
+	query.exec();
+	while(query.next()) {
+		musicId = query.value(1).toInt();
+		v->push_back(musicId);
+	}
+	return *v;	// must remember to free the memory	
+}
+
+//for fuzzy search
+vector<int>& Dao::getMusicsByName(QString name) {
+	vector<int>* v = new vector<int>();
+	int musicId;
+	name = "%" + name + "%"; 
+	QSqlQuery query(db);
+	query.prepare("SELECT id FROM music WHERE name LIKE :name");
+	query.bindValue(":name", name);
+	query.exec();
+	while(query.next()) {
+		musicId = query.value(0).toInt();
+		v->push_back(musicId);
+	}
+	return *v;	// must remember to free the memory	
+}
+
+std::vector<int>& Dao::getMusicsBySinger(QString singer) {
+	vector<int>* v = new vector<int>();
+	int musicId;
+	QSqlQuery query(db);
+	query.prepare("SELECT id FROM music WHERE singer = :singer");
+	query.bindValue(":singer", singer);
+	query.exec();
+	while(query.next()) {
+		musicId = query.value(0).toInt();
+		v->push_back(musicId);
+	}
+	return *v;	// must remember to free the memory	
+}
+
+vector<int>& Dao::getfolloweesByUserId(int userId) {
+	vector<int>* v = new vector<int>();
+	int followee;
+	QSqlQuery query(db);
+	query.prepare("SELECT * FROM follow WHERE follower = :userId");
+	query.bindValue(":userId", userId);
+	query.exec();
+	while(query.next()) {
+		followee = query.value(1).toInt();
+		v->push_back(followee);
+	}
+	return *v;	// must remember to free the memory	
+}
+
+vector<int>& Dao::getCommentsByMusicId(int musicId) {
+	vector<int>* v = new vector<int>();
+	QSqlQuery query(db);
+	int commentId;
+	query.prepare("SELECT id FROM comment WHERE musicId = :musicId");
+	query.bindValue(":musicId", musicId);
+	query.exec();
+	while(query.next()) {
+		commentId = query.value(0).toInt();
+		v->push_back(commentId);
+	}
+	return *v;	// must remember to free the memory	
 }

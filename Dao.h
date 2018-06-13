@@ -14,6 +14,7 @@ private:
 	QSqlDatabase db;
 	//QSqlQuery query;
 public:
+	Dao();
 	void connect();
 	void close();
 	Model* getModelById(Type type, int id);
@@ -21,11 +22,12 @@ public:
 	bool addModel(Model& model);
 	bool modifyModel(Model& model);
 	bool deleteModel(Model& model);
-	std::vector<std::string> getAuthoritiesByUserId(int userId);
-	std::vector<int> getMusicsByUserId(int userId);
-	std::vector<int> getMusicsByName(QString name);
-	std::vector<int> followeesByUserId(int userId);
-	std::vector<CommentModel*> getCommentsByMusicId(int musicId);
+	std::vector<int>& getAuthoritiesByUserId(int userId);
+	std::vector<int>& getMusicsByUserId(int userId);
+	std::vector<int>& getMusicsByName(QString name); // for fuzzy search
+	std::vector<int>& getMusicsBySinger(QString singer); //search for singer
+	std::vector<int>& getfolloweesByUserId(int userId);
+	std::vector<int>& getCommentsByMusicId(int musicId);
 }; 
 
 #endif
