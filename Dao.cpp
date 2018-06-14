@@ -4,7 +4,7 @@
 #include "CommentModel.h"
 #include "RoleModel.h"
 #include "AuthorityModel.h"
-#include <QSqlError>
+#include <QtSql/QSqlError>
 
 using namespace std;
 
@@ -14,7 +14,7 @@ Dao::Dao() {
 
 void Dao::connect() {
 	db = QSqlDatabase::addDatabase("QMYSQL");
-	db.setHostname("127.0.0.1");
+	db.setHostName("127.0.0.1");
 	db.setPort(3306);
 	db.setDatabaseName("CloudMusic");
 	db.setUserName("root");
@@ -69,7 +69,7 @@ Model* Dao::getModelById(Type type, int id) {
 
 		case role: {
 			query.prepare("SELECT * FROM role WHERE id = :id");
-			sql += tid;
+			query.bindValue(":id", id);
 			query.exec();
 			string name;
 			if(query.next()) {
@@ -131,7 +131,7 @@ Model* Dao::getModelByName(Type type, QString name) {
 			if(query.next()) {
 				id = query.value(0).toInt();
 				password = query.value(2).toString().toStdString();
-				p = new UserModel(name, password);
+				p = new UserModel(name.toStdString(), password);
 				p->setId(id);
 			}
 			break;
@@ -146,7 +146,7 @@ Model* Dao::getModelByName(Type type, QString name) {
 			if(query.next()) {
 				id = query.value(0).toInt();
 				singer = query.value(2).toString().toStdString();
-				p = new MusicModel(name, singer);
+				p = new MusicModel(name.toStdString(), singer);
 				p->setId(id);
 			}
 			break;
@@ -159,7 +159,7 @@ Model* Dao::getModelByName(Type type, QString name) {
 			int id;
 			if(query.next()) {
 				id = query.value(0).toInt();
-				p = new RoleModel(name);
+				p = new RoleModel(name.toStdString());
 				p->setId(id);
 			}
 			break;
@@ -172,7 +172,7 @@ Model* Dao::getModelByName(Type type, QString name) {
 			int id;
 			while(query.next()) {
 				id = query.value(0).toInt();
-				p = new AuthorityModel(name);
+				p = new AuthorityModel(name.toStdString());
 				p->setId(id);
 			}
 			break;

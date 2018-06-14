@@ -7,8 +7,8 @@ UserModel::UserModel() {
 }
 
 UserModel::UserModel(string name, string pass) {
-	this->name = name;
-	this->pass = pass;
+	this->username = name;
+	this->password = pass;
 }
 
 string UserModel::getName() {

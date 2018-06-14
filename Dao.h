@@ -3,7 +3,7 @@
 
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
-#include <QtSql/QSql>
+//#include <QtSql/QSql>
 #include <QtDebug>
 #include "Model.h"
 #include <vector>
