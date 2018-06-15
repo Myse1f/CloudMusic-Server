@@ -13,7 +13,11 @@ private:
     int socketDescriptor;
     int userId;
     Dao database;
+    QTcpSocket tcpSocket;
     Datapackage dp;
+    QDataStream in;
+    QString data;
+    bool ready;
 
 public:
     UserThread(int socketDescriptor, QObject *parent);
@@ -21,6 +25,9 @@ public:
 
 signals:
     void error(QTcpSocket::SocketError socketError);
+
+private slots:
+    void readData();
 };
 
 #endif
