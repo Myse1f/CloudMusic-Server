@@ -10,27 +10,32 @@
 #include "CommentModel.h"
 #include "RoleModel.h"
 #include "AuthorityModel.h"
-
+#include "QtDebug"
 UserThread::UserThread(int socketDescriptor, QObject *parent): QThread(parent), socketDescriptor(socketDescriptor) {
     userId = -1;
-    connect(&tcpSocket, &QIODevice::readyRead, this, &UserThread::readData);
+	qDebug() << "new Thread";
+    if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
+        emit error(tcpSocket.error());
+        qDebug() << "socket error!";
+		return;
+    }
+	connect(&tcpSocket, &QIODevice::readyRead, this, &UserThread::readData);
+	connect(this, &UserThread::readPackage, this, &UserThread::handlePackage);
+    connect(&tcpSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+
 }
 
 void UserThread::run() {
-    if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
-        emit error(tcpSocket.error());
-        return;
-    }
+	qDebug() << "enter run";
+    
     in.setDevice(&tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);
 
-    connect(this, &UserThread::readPackage, this, &UserThread::handlePackage);
-    connect(this, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-    // connect(tcpSocket, &QTcpSocket::disconnected, this, terminateThread);
-
     // while(!ready) ; //busy waiting for data ready, not a good idea
     //                 //maybe mutex or semaphor is better
-
+	//qDebug() << "wait disconnect";
+	//tcpSocket.waitForDisconnected(-1);
+	//qDebug() << "disconnected";
     exec();
 }
 
@@ -369,6 +374,7 @@ bool UserThread::isLogin() {
 }
 
 void UserThread::onDisconnected() {
+	qDebug() << "disconnected";
     tcpSocket.close();
     database.close();
 }

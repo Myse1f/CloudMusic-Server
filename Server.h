@@ -14,6 +14,7 @@ private:
     
 public:
     Server(QObject *parent = 0);
+	void run();
 
 protected:
     void incomingConnection(qintptr socketDescriptor) override;

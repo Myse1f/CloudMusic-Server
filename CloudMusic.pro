@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = CloudMusic
 INCLUDEPATH += .
 
-QT += network sql widgets
+QT += core network sql widgets
 INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib/
 LIBS += -lprotobuf

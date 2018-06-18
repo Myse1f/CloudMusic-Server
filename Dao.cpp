@@ -5,27 +5,37 @@
 #include "RoleModel.h"
 #include "AuthorityModel.h"
 #include <QtSql/QSqlError>
+#include <cstdio>
 
 using namespace std;
 
+int Dao::no = 0;
+
 Dao::Dao() {
+	char buf[10];
+	sprintf(buf, "%d", no++);	
+	QString name = "db";
+	this->dbName = name + buf;
 	connect();
 }
 
 void Dao::connect() {
-	db = QSqlDatabase::addDatabase("QMYSQL");
+	char *buf[10];
+	db = QSqlDatabase::addDatabase("QMYSQL", dbName);
+	db.setDatabaseName(dbName);
 	db.setHostName("127.0.0.1");
 	db.setPort(3306);
 	db.setDatabaseName("CloudMusic");
 	db.setUserName("root");
-	db.setPassword("xxxxxx"); //secret
+	db.setPassword("210031"); //secret
 	if(!db.open()) {
 		qDebug() << "Database open failed! Check the password!";
+		exit(-1);
 	}
-	exit(-1);
 }
 
 void Dao::close() {
+	QSqlDatabase::removeDatabase(dbName);
 	db.close();
 }
 

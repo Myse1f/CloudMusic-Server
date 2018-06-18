@@ -12,6 +12,8 @@
 class Dao {
 private:
 	QSqlDatabase db;
+	QString dbName;
+	static int no;
 	//QSqlQuery query;
 public:
 	Dao();

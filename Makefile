@@ -1247,41 +1247,7 @@ main.o: main.cpp Server.h \
 		Model.h \
 		CommentModel.h \
 		protocol.pb.h \
-		/usr/local/Qt-5.8.0/include/QtWidgets/QApplication \
-		/usr/local/Qt-5.8.0/include/QtWidgets/qapplication.h \
-		/usr/local/Qt-5.8.0/include/QtWidgets/qtwidgetsglobal.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qtguiglobal.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qtgui-config.h \
-		/usr/local/Qt-5.8.0/include/QtWidgets/qtwidgets-config.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qwindowdefs.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qwindowdefs_win.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qcursor.h \
-		/usr/local/Qt-5.8.0/include/QtWidgets/qdesktopwidget.h \
-		/usr/local/Qt-5.8.0/include/QtWidgets/qwidget.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qpaintdevice.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qpalette.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qcolor.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qrgb.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qrgba64.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qbrush.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qmatrix.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qpolygon.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qregion.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qtransform.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qpainterpath.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qimage.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qpixelformat.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qpixmap.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qfont.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qfontmetrics.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qfontinfo.h \
-		/usr/local/Qt-5.8.0/include/QtWidgets/qsizepolicy.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qkeysequence.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qevent.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qvector2d.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qtouchdevice.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qguiapplication.h \
-		/usr/local/Qt-5.8.0/include/QtGui/qinputmethod.h
+		/usr/local/Qt-5.8.0/include/QtCore/QCoreApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 MusicModel.o: MusicModel.cpp MusicModel.h \
