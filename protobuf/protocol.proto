@@ -21,6 +21,7 @@ message Header {
 		GET_USERS = 9;
 		LOGOUT = 10;
 		FOLLOW = 11;
+		CHAT = 12;
 	}
 	Resource resource = 2;
 	
@@ -41,6 +42,11 @@ message UserInfo {
 message MusicInfo {
 	string name = 1;
 	string singer = 2;
+	enum Status {
+		ONLINE = 1;
+		OFFLINE = 2;
+	}
+	Status status = 3;
 }
 
 message CommentInfo { 
@@ -59,6 +65,7 @@ message MusicList {
 
 message MusicData {
 	bytes data = 1;
+	bytes lyrics = 2;
 }
 
 message CommentList {
@@ -67,6 +74,12 @@ message CommentList {
 
 message UserList {
 	repeated UserInfo userInfo = 1;
+}
+
+message Text {
+	string src = 1;
+	string dst = 2;
+	string text = 3;
 }
 
 message Datapackage {
