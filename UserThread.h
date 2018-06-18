@@ -30,6 +30,7 @@ signals:
 private slots:
     void readData();
     void handlePackage();
+    void onDisconnected();
     // void terminateThread();
 };
 

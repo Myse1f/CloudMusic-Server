@@ -25,13 +25,13 @@ void UserThread::run() {
     in.setVersion(QDataStream::Qt_4_0);
 
     connect(this, &UserThread::readPackage, this, &UserThread::handlePackage);
+    connect(this, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
     // connect(tcpSocket, &QTcpSocket::disconnected, this, terminateThread);
 
     // while(!ready) ; //busy waiting for data ready, not a good idea
     //                 //maybe mutex or semaphor is better
 
-    tcpSocket.waitForDisconnected(-1);
-    database.close();
+    exec();
 }
 
 void UserThread::readData() {
@@ -366,4 +366,9 @@ void UserThread::handlePackage() {
 
 bool UserThread::isLogin() {
     return !(userId == -1);
+}
+
+void UserThread::onDisconnected() {
+    tcpSocket.close();
+    database.close();
 }
