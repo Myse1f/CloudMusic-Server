@@ -60,7 +60,7 @@ void UserThread::handlePackage() {
     // assert(h.type() == Header::REQUEST);
     switch(h.resource()) {
         case Header::LOGIN : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             if(any.Is<UserInfo>) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
@@ -90,7 +90,7 @@ void UserThread::handlePackage() {
         }
 
         case Header::REGISTER : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             if(any.Is<UserInfo>) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
@@ -117,7 +117,7 @@ void UserThread::handlePackage() {
         }
 
         case Header::SEARCH_MUSIC : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             MusicList ml;
             if(any.Is<MusicInfo>) { // must be true 
                 MusicInfo musicInfo;
@@ -151,7 +151,7 @@ void UserThread::handlePackage() {
         }
 
         case Header::SEARCH_USER : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             if(any.Is<UserInfo>) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
@@ -176,7 +176,7 @@ void UserThread::handlePackage() {
         }
 
         case Header::COMMENT : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             if(any.Is<CommentInfo>) { // must be true 
                 CommentInfo commentInfo;
                 any.UnpackTo(&commentInfo);
@@ -198,7 +198,7 @@ void UserThread::handlePackage() {
         }
 
 		case Header::LIKE : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             if(any.Is<CommentInfo>) { // must be true 
                 CommentInfo commentInfo;
                 any.UnpackTo(&commentInfo);
@@ -218,7 +218,7 @@ void UserThread::handlePackage() {
         }
 
 		case Header::GET_COMMENTS : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             CommentList cl;
             if(any.Is<MusicInfo>) { // must be true 
                 MusicInfo musicInfo;
@@ -250,7 +250,7 @@ void UserThread::handlePackage() {
         }
 
 		case Header::GET_MUSICS : { //get user's music
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             MusicList ml;
             if(any.Is<UserInfo>) { // must be true 
                 UserInfo userInfo;
@@ -278,7 +278,7 @@ void UserThread::handlePackage() {
         }
         
 		case Header::GET_MUSICFILE : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             MusicData md;
             if(any.Is<MusicInfo>) { // must be true 
                 MusicInfo musicInfo;
@@ -301,7 +301,7 @@ void UserThread::handlePackage() {
         }
 
 		case Header::GET_USERS : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             UserList ul;
             if(any.Is<UserInfo>) { // must be true 
                 UserInfo userInfo;
@@ -338,7 +338,7 @@ void UserThread::handlePackage() {
         }
 
         case Header::FOLLOW : {
-            const Any& any = dp.body();
+            const ::google::protobuf::Any& any = dp.body();
             if(any.Is<UserInfo>) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
