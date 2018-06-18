@@ -27,7 +27,7 @@ public:
 	std::vector<int>& getMusicsByUserId(int userId);
 	std::vector<int>& getMusicsByName(QString name); // for fuzzy search
 	std::vector<int>& getMusicsBySinger(QString singer); //search for singer
-	std::vector<int>& getfolloweesByUserId(int userId);
+	std::vector<int>& getFolloweesByUserId(int userId);
 	std::vector<int>& getCommentsByMusicId(int musicId);
 }; 
 

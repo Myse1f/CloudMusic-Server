@@ -353,7 +353,7 @@ std::vector<int>& Dao::getMusicsBySinger(QString singer) {
 	return *v;	// must remember to free the memory	
 }
 
-vector<int>& Dao::getfolloweesByUserId(int userId) {
+vector<int>& Dao::getFolloweesByUserId(int userId) {
 	vector<int>* v = new vector<int>();
 	int followee;
 	QSqlQuery query(db);
