@@ -24,7 +24,7 @@ void UserThread::run() {
     in.setDevice(&tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);
 
-    connect(this, readPackage, this, handlePackage);
+    connect(this, &UserThread::readPackage, this, &UserThread::handlePackage);
     // connect(tcpSocket, &QTcpSocket::disconnected, this, terminateThread);
 
     // while(!ready) ; //busy waiting for data ready, not a good idea
@@ -46,7 +46,7 @@ void UserThread::readData() {
     std::string raw = data.toStdString();
     dp.ParseFromString(raw);
     
-    emit handlePackage();
+    emit readPackage();
 }
 
 // void UserThread::terminateThread() {

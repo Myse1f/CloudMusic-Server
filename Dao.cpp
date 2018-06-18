@@ -225,14 +225,14 @@ bool Dao::modifyModel(Model* model) {
 	QSqlQuery query(db);
 	switch(model->getModelType()) {
 		case user: {
-			UserModel *m = dynamic_cast<UserModel*>(model);
+			//UserModel *m = dynamic_cast<UserModel*>(model);
 			// do not support so far
 			//query.prepare("UPDATE user SET username = :username");
 			break;
 		}
 			
 		case music: {
-			MusicModel *m = dynamic_cast<MusicModel*>(model);
+			//MusicModel *m = dynamic_cast<MusicModel*>(model);
 			//do not support so far
 			break;
 		}
