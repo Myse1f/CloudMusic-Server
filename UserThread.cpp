@@ -61,7 +61,7 @@ void UserThread::handlePackage() {
     switch(h.resource()) {
         case Header::LOGIN : {
             const ::google::protobuf::Any& any = dp.body();
-            if(any.Is<UserInfo>) { // must be true 
+            if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
@@ -91,7 +91,7 @@ void UserThread::handlePackage() {
 
         case Header::REGISTER : {
             const ::google::protobuf::Any& any = dp.body();
-            if(any.Is<UserInfo>) { // must be true 
+            if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
@@ -119,7 +119,7 @@ void UserThread::handlePackage() {
         case Header::SEARCH_MUSIC : {
             const ::google::protobuf::Any& any = dp.body();
             MusicList ml;
-            if(any.Is<MusicInfo>) { // must be true 
+            if(any.Is<MusicInfo>()) { // must be true 
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 std::string name = musicInfo.name();
@@ -152,7 +152,7 @@ void UserThread::handlePackage() {
 
         case Header::SEARCH_USER : {
             const ::google::protobuf::Any& any = dp.body();
-            if(any.Is<UserInfo>) { // must be true 
+            if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
@@ -177,7 +177,7 @@ void UserThread::handlePackage() {
 
         case Header::COMMENT : {
             const ::google::protobuf::Any& any = dp.body();
-            if(any.Is<CommentInfo>) { // must be true 
+            if(any.Is<CommentInfo>()) { // must be true 
                 CommentInfo commentInfo;
                 any.UnpackTo(&commentInfo);
                 std::string username = commentInfo.username();
@@ -199,7 +199,7 @@ void UserThread::handlePackage() {
 
 		case Header::LIKE : {
             const ::google::protobuf::Any& any = dp.body();
-            if(any.Is<CommentInfo>) { // must be true 
+            if(any.Is<CommentInfo>()) { // must be true 
                 CommentInfo commentInfo;
                 any.UnpackTo(&commentInfo);
                 int id = commentInfo.id();
@@ -220,7 +220,7 @@ void UserThread::handlePackage() {
 		case Header::GET_COMMENTS : {
             const ::google::protobuf::Any& any = dp.body();
             CommentList cl;
-            if(any.Is<MusicInfo>) { // must be true 
+            if(any.Is<MusicInfo>()) { // must be true 
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 Model *m = database.getModelByName(music, musicInfo.name().c_str());
@@ -252,7 +252,7 @@ void UserThread::handlePackage() {
 		case Header::GET_MUSICS : { //get user's music
             const ::google::protobuf::Any& any = dp.body();
             MusicList ml;
-            if(any.Is<UserInfo>) { // must be true 
+            if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
@@ -280,7 +280,7 @@ void UserThread::handlePackage() {
 		case Header::GET_MUSICFILE : {
             const ::google::protobuf::Any& any = dp.body();
             MusicData md;
-            if(any.Is<MusicInfo>) { // must be true 
+            if(any.Is<MusicInfo>()) { // must be true 
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 std::string musicname = musicInfo.name();
@@ -303,7 +303,7 @@ void UserThread::handlePackage() {
 		case Header::GET_USERS : {
             const ::google::protobuf::Any& any = dp.body();
             UserList ul;
-            if(any.Is<UserInfo>) { // must be true 
+            if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
@@ -339,7 +339,7 @@ void UserThread::handlePackage() {
 
         case Header::FOLLOW : {
             const ::google::protobuf::Any& any = dp.body();
-            if(any.Is<UserInfo>) { // must be true 
+            if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
