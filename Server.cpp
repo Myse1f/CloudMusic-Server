@@ -1,10 +1,10 @@
 #include "Server.h"
 
 Server::Server(QObject *parent) : QTcpServer(parent) {
-    sockets.clear();
-    users.clear();
 }
 
 void Server::incomingConnection(qintptr socketDescriptor) {
-    //TBD: new UserThread
+    UserThread *thread = new UserThread(socketDescriptor, this);
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
 }

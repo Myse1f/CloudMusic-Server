@@ -34,6 +34,10 @@ string CommentModel::getDate() {
     return this->date;
 }
 
+void CommentModel::like() {
+    this->thumb ++;
+}
+
 Type CommentModel::getModelType() {
     return comment;
 }

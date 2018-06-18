@@ -9,8 +9,8 @@
 class Server : public QTcpServer {
     Q_OBJECT
 private:
-    QVector<QTcpSocket*> sockets;
-    QVector<UserThread*> users;
+    //QVector<QTcpSocket*> sockets;
+    //QVector<UserThread*> users;
     
 public:
     Server(QObject *parent = 0);

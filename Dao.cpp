@@ -183,35 +183,35 @@ Model* Dao::getModelByName(Type type, QString name) {
 	return p;
 }
 
-bool Dao::addModel(Model& model) {
+bool Dao::addModel(Model* model) {
 	//string sql;
 	QSqlQuery query(db);
-	switch(model.getModelType()) {
+	switch(model->getModelType()) {
 		case user: {	
-			UserModel m = dynamic_cast<UserModel&>(model);
+			UserModel *m = dynamic_cast<UserModel*>(model);
 			query.prepare("INSERT INTO user (username, password) VALUES (:username, :password)");
-			query.bindValue(":username", m.getName().c_str());
-			query.bindValue(":password", m.getPass().c_str());
+			query.bindValue(":username", m->getName().c_str());
+			query.bindValue(":password", m->getPass().c_str());
 			query.exec();
 			break;
 		}
 			
 		case music: {
-			MusicModel m = dynamic_cast<MusicModel&>(model);
+			MusicModel *m = dynamic_cast<MusicModel*>(model);
 			query.prepare("INSERT INTO music (name, singer) VALUES (:name, :singer)");
-			query.bindValue(":name", m.getName().c_str());
+			query.bindValue(":name", m->getName().c_str());
 			query.exec();
 			break;
 		}
 
 		case comment: {
-			CommentModel m = dynamic_cast<CommentModel&>(model);
+			CommentModel *m = dynamic_cast<CommentModel*>(model);
 			query.prepare("INSERT INTO comment (content, userId, musicId, thumb, date) VALUES (:content, :userId, :musicId, :thumb, :date)");
-			query.bindValue(":content", m.getContent().c_str());
-			query.bindValue(":userId", m.getUserId());
-			query.bindValue(":musicId", m.getMusicId());
-			query.bindValue(":thumb", m.getThumb());
-			query.bindValue(":date", m.getDate().c_str());
+			query.bindValue(":content", m->getContent().c_str());
+			query.bindValue(":userId", m->getUserId());
+			query.bindValue(":musicId", m->getMusicId());
+			query.bindValue(":thumb", m->getThumb());
+			query.bindValue(":date", m->getDate().c_str());
 			query.exec();
 			break;
 		}
@@ -221,28 +221,28 @@ bool Dao::addModel(Model& model) {
 	return query.lastError().type() == QSqlError::NoError;
 }
 
-bool Dao::modifyModel(Model& model) {	
+bool Dao::modifyModel(Model* model) {	
 	QSqlQuery query(db);
-	switch(model.getModelType()) {
+	switch(model->getModelType()) {
 		case user: {
-			UserModel m = dynamic_cast<UserModel&>(model);
+			UserModel *m = dynamic_cast<UserModel*>(model);
 			// do not support so far
 			//query.prepare("UPDATE user SET username = :username");
 			break;
 		}
 			
 		case music: {
-			MusicModel m = dynamic_cast<MusicModel&>(model);
+			MusicModel *m = dynamic_cast<MusicModel*>(model);
 			//do not support so far
 			break;
 		}
 
 		case comment: {
-			CommentModel m = dynamic_cast<CommentModel&>(model);
+			CommentModel *m = dynamic_cast<CommentModel*>(model);
 			// only support to modify the number of thumb
 			query.prepare("UPDATE comment SET thumb = :thumb WHERE id = :id");
-			query.bindValue(":thumb", m.getThumb());
-			query.bindValue(":id", m.getId());
+			query.bindValue(":thumb", m->getThumb());
+			query.bindValue(":id", m->getId());
 			break;
 		}
 		default: return false;
@@ -250,35 +250,43 @@ bool Dao::modifyModel(Model& model) {
 	return query.lastError().type() == QSqlError::NoError;
 }
 
-bool Dao::deleteModel(Model& model) {
+bool Dao::deleteModel(Model* model) {
 	QSqlQuery query(db);
-	switch(model.getModelType()) {
+	switch(model->getModelType()) {
 		case user: {
-			UserModel m = dynamic_cast<UserModel&>(model);
+			UserModel *m = dynamic_cast<UserModel*>(model);
 			query.prepare("DELETE FROM user WHERE id = :id");
-			query.bindValue(":id", m.getId());
+			query.bindValue(":id", m->getId());
 			query.exec();
 			break;
 		}
 			
 		case music: {
-			MusicModel m = dynamic_cast<MusicModel&>(model);
+			MusicModel *m = dynamic_cast<MusicModel*>(model);
 			query.prepare("DELETE FROM music WHERE id = :id");
-			query.bindValue(":id", m.getId());
+			query.bindValue(":id", m->getId());
 			query.exec();
 			break;
 		}
 
 		case comment: {
-			CommentModel m = dynamic_cast<CommentModel&>(model);
+			CommentModel *m = dynamic_cast<CommentModel*>(model);
 			query.prepare("DELETE FROM comment WHERE id = :id");
-			query.bindValue(":id", m.getId());
+			query.bindValue(":id", m->getId());
 			query.exec();
 			break;
 		}
 		default: return false;
 	}
 	return query.lastError().type() == QSqlError::NoError;
+}
+
+void Dao::addFollow(int follower, int followee) {
+	QSqlQuery query(db);
+	query.prepare("INSERT INTO follow VALUES(:follower, :followee)");
+	query.bindValue(":follower", follower);
+	query.bindValue(":followee", followee);
+	query.exec();
 }
 
 vector<int>& Dao::getAuthoritiesByUserId(int userId) {

@@ -17,17 +17,20 @@ private:
     Datapackage dp;
     QDataStream in;
     QString data;
-    bool ready;
 
 public:
     UserThread(int socketDescriptor, QObject *parent);
     void run() override;
+    bool isLogin();
 
 signals:
     void error(QTcpSocket::SocketError socketError);
+    void readPackage();
 
 private slots:
     void readData();
+    void handlePackage();
+    // void terminateThread();
 };
 
 #endif

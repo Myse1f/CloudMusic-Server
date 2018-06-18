@@ -14,6 +14,7 @@ public:
 	int getMusicId();
 	int getThumb();
 	std::string getDate();
+	void like();
 	Type getModelType();
 private:
 	std::string content;

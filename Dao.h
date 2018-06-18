@@ -19,9 +19,10 @@ public:
 	void close();
 	Model* getModelById(Type type, int id);
 	Model* getModelByName(Type type, QString name);
-	bool addModel(Model& model);
-	bool modifyModel(Model& model);
-	bool deleteModel(Model& model);
+	bool addModel(Model* model);
+	bool modifyModel(Model* model);
+	bool deleteModel(Model* model);
+	void addFollow(int follower, int followee);
 	std::vector<int>& getAuthoritiesByUserId(int userId);
 	std::vector<int>& getMusicsByUserId(int userId);
 	std::vector<int>& getMusicsByName(QString name); // for fuzzy search
