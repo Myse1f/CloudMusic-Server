@@ -8,13 +8,13 @@
 
 class Server : public QTcpServer {
     Q_OBJECT
-private:
-    //QVector<QTcpSocket*> sockets;
-    //QVector<UserThread*> users;
+//private:
     
 public:
     Server(QObject *parent = 0);
 	void run();
+    // QVector<qintptr>& getSockets();
+    // QVector<int>& getOnlineUsers();
 
 protected:
     void incomingConnection(qintptr socketDescriptor) override;

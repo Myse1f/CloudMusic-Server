@@ -11,6 +11,10 @@
 #include "RoleModel.h"
 #include "AuthorityModel.h"
 #include "QtDebug"
+
+QMap<int,qintptr> UserThread::sockets;
+QVector<int> UserThread::onlineUsers;
+
 UserThread::UserThread(int socketDescriptor, QObject *parent): QThread(parent), socketDescriptor(socketDescriptor) {
     userId = -1;
 	qDebug() << "new Thread";
@@ -29,7 +33,7 @@ void UserThread::run() {
 	qDebug() << "enter run";
     
     in.setDevice(&tcpSocket);
-    in.setVersion(QDataStream::Qt_4_0);
+    in.setVersion(QDataStream::Qt_5_0);
 
     // while(!ready) ; //busy waiting for data ready, not a good idea
     //                 //maybe mutex or semaphor is better
@@ -74,6 +78,8 @@ void UserThread::handlePackage() {
                 Model *m = database.getModelByName(user, username.c_str());
                 if(!m && dynamic_cast<UserModel*>(m)->getPass() == password) {
                     userId = m->getId();
+                    UserThread::onlineUsers.push_back(userId);
+                    UserThread::sockets.insert(userId, socketDescriptor);
                     // reponse with OK                   
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
@@ -157,6 +163,7 @@ void UserThread::handlePackage() {
 
         case Header::SEARCH_USER : {
             const ::google::protobuf::Any& any = dp.body();
+            UserInfo ui;
             if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
@@ -167,6 +174,11 @@ void UserThread::handlePackage() {
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::SEARCH_USER);
                     header->set_status(Header::OK);
+                    ui.set_username(username);
+                    if(UserThread::onlineUsers.contains(m->getId()))
+                        ui.set_status(UserInfo::ONLINE);
+                    else
+                        ui.set_status(UserInfo::OFFLINE);
                 }
                 else { // not exist
                     Header *header = ret.mutable_header();
@@ -335,6 +347,7 @@ void UserThread::handlePackage() {
         case Header::LOGOUT : {
             if(isLogin())
                 userId = -1;
+            UserThread::onlineUsers.removeOne(userId);
             Header *header = ret.mutable_header();
             header->set_type(Header::REPONSE);
             header->set_resource(Header::LOGOUT);
@@ -359,12 +372,68 @@ void UserThread::handlePackage() {
                 assert(0);           
             break;
         }
+
+        case Header::CHAT : {
+            const ::google::protobuf::Any& any = dp.body();
+            if(any.Is<Text>()) {
+                Text txt;
+                any.UnpackTo(&txt);
+                std::string dst = txt.dst();
+                Model *m = database.getModelByName(user, dst.c_str());
+                assert(m);
+                //std::string text = txt.text();
+                QMap<int, qintptr>::iterator it = UserThread::sockets.find(m->getId());
+                if(it == sockets.end()) {
+                    qDebug() << "User is offline";
+                    Header *header = ret.mutable_header();
+                    header->set_type(Header::REPONSE);
+                    header->set_resource(Header::CHAT);
+                    header->set_status(Header::ERROR);
+                    return;
+                }
+                else {
+                    qintptr tmp = it.value();
+                    Datapackage anotherDp;
+                    QTcpSocket tcp;
+                    Text send;
+                    if(!tcp.setSocketDescriptor(tmp)) {
+                        emit error(tcpSocket.error());
+                        qDebug() << "socket error!";
+                        return;
+                    }
+                    send.set_src(txt.src());
+                    send.set_dst(txt.dst());
+                    send.set_text(txt.text());
+                    Header *header1 = anotherDp.mutable_header();
+                    header1->set_type(Header::REQUEST);
+                    header1->set_resource(Header::CHAT);
+                    header1->set_status(Header::OK);
+                    anotherDp.mutable_body()->PackFrom(send);
+                    std::string data1; 
+                    anotherDp.SerializeToString(&data1);
+                    QByteArray block;
+                    QDataStream out1(&block, QIODevice::WriteOnly);
+                    out1.setVersion(QDataStream::Qt_5_0);
+                    out1 << data1.c_str();
+                    tcp.write(block);
+                    Header *header = ret.mutable_header();
+                    header->set_type(Header::REPONSE);
+                    header->set_resource(Header::CHAT);
+                    header->set_status(Header::OK);
+                }
+            }
+            else
+                assert(0);
+            break;
+        }
+
+        default : assert(0);
     }
     std::string data; 
     ret.SerializeToString(&data);
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_0);
+    out.setVersion(QDataStream::Qt_5_0);
     out << data.c_str();
     tcpSocket.write(block);
 }
@@ -375,6 +444,9 @@ bool UserThread::isLogin() {
 
 void UserThread::onDisconnected() {
 	qDebug() << "disconnected";
+    UserThread::onlineUsers.removeOne(userId);
+    UserThread::sockets.remove(userId);
     tcpSocket.close();
     database.close();
+    quit();
 }

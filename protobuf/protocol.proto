@@ -37,16 +37,16 @@ message Header {
 message UserInfo {
 	string username = 1;
 	string password = 2;
-}
-
-message MusicInfo {
-	string name = 1;
-	string singer = 2;
 	enum Status {
 		ONLINE = 1;
 		OFFLINE = 2;
 	}
 	Status status = 3;
+}
+
+message MusicInfo {
+	string name = 1;
+	string singer = 2;
 }
 
 message CommentInfo { 

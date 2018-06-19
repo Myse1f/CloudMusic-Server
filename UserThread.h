@@ -9,6 +9,11 @@
 
 class UserThread : public QThread {
     Q_OBJECT
+
+public:    
+    static QMap<int,qintptr> sockets;
+    static QVector<int> onlineUsers;
+
 private:
     int socketDescriptor;
     int userId;

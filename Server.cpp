@@ -19,3 +19,11 @@ void Server::run() {
 	this->listen(QHostAddress::Any, PORT);
 	//exec();
 }
+
+// QVector<qintptr>& Server::getSockets() {
+// 	return this->sockets;
+// }
+
+// QVector<int>& Server::getOnlineUsers() {
+// 	return this->onlineUsers;
+// }
