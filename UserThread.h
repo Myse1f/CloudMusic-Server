@@ -18,10 +18,10 @@ private:
     int socketDescriptor;
     int userId;
     Dao database;
-    QTcpSocket tcpSocket;
+    QTcpSocket *tcpSocket;
     Datapackage dp;
     QDataStream in;
-    QString data;
+    char data[2];
 
 public:
     UserThread(int socketDescriptor, QObject *parent);

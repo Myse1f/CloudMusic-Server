@@ -18,44 +18,59 @@ QVector<int> UserThread::onlineUsers;
 UserThread::UserThread(int socketDescriptor, QObject *parent): QThread(parent), socketDescriptor(socketDescriptor) {
     userId = -1;
 	qDebug() << "new Thread";
-    if (!tcpSocket.setSocketDescriptor(socketDescriptor)) {
-        emit error(tcpSocket.error());
+	tcpSocket = new QTcpSocket();
+    if (!tcpSocket->setSocketDescriptor(socketDescriptor)) {
+        emit error(tcpSocket->error());
         qDebug() << "socket error!";
 		return;
     }
-	connect(&tcpSocket, &QIODevice::readyRead, this, &UserThread::readData);
+	connect(tcpSocket, &QTcpSocket::readyRead, this, &UserThread::readData);
 	connect(this, &UserThread::readPackage, this, &UserThread::handlePackage);
-    connect(&tcpSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-
+    connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+	in.setDevice(tcpSocket);
+    in.setVersion(QDataStream::Qt_5_0);
 }
 
 void UserThread::run() {
-	qDebug() << "enter run";
-    
-    in.setDevice(&tcpSocket);
-    in.setVersion(QDataStream::Qt_5_0);
-
+	qDebug() << "enter run"; 
     // while(!ready) ; //busy waiting for data ready, not a good idea
     //                 //maybe mutex or semaphor is better
 	//qDebug() << "wait disconnect";
-	//tcpSocket.waitForDisconnected(-1);
-	//qDebug() << "disconnected";
-    exec();
+	//tcpSocket->waitForDisconnected(-1);
+	exec();
+	qDebug() << "disconnecting";
+    //exec();
 }
 
 void UserThread::readData() {
-    in.startTransaction();
+   	qDebug() << "reading"; 
+    //in.startTransaction();
+    static int flag = 0;
+	static std::string raw;
+	int total = tcpSocket->bytesAvailable();
+	//qDebug() << total;
+	while(total--) {
+		in.readRawData(data, 1);
+    	if(data[0] == '$')
+			flag ++;
+		else
+			flag = 0;
+		raw.append(std::string(data,1));
+		if(flag == 2) {
+    		break;
+		}
+	}
     
-    in >> data;
-    if(!in.commitTransaction())
-        return;
-    // if(nextData == currentData)
-    //     return;
-
-    std::string raw = data.toStdString();
-    dp.ParseFromString(raw);
-    
-    emit readPackage();
+	if(flag == 2) { //a complete package
+		//qDebug() << "Complete package";	
+		flag = 0;
+		raw.pop_back(); //pop $$
+		raw.pop_back();
+    	dp.ParseFromString(raw);
+   		qDebug() << "new package: " << raw.length(); 
+		raw.clear();
+    	emit readPackage();
+	}
 }
 
 // void UserThread::terminateThread() {
@@ -69,7 +84,9 @@ void UserThread::handlePackage() {
     // assert(h.type() == Header::REQUEST);
     switch(h.resource()) {
         case Header::LOGIN : {
+			//qDebug() << "request login";
             const ::google::protobuf::Any& any = dp.body();
+			qDebug() << any.Is<UserInfo>();
             if(any.Is<UserInfo>()) { // must be true 
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
@@ -96,7 +113,8 @@ void UserThread::handlePackage() {
                 delete m; //free memory
             }
             else 
-                assert(0);           
+                assert(0);   
+				//return;
             break;
         }
 
@@ -109,15 +127,18 @@ void UserThread::handlePackage() {
                 std::string password = userInfo.password();
                 Model *m = new UserModel(username, password);
                 if(database.addModel(m)) { //OK, this username is not used
-                    Header *header = ret.mutable_header();
+                    delete m;
+					m = database.getModelByName(user,username.c_str());
+					userId = m->getId();
+					Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
-                    header->set_resource(Header::LOGIN);
+                    header->set_resource(Header::REGISTER);
                     header->set_status(Header::OK);
-                } 
+				} 
                 else { // the username is used                  
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
-                    header->set_resource(Header::LOGIN);
+                    header->set_resource(Header::REGISTER);
                     header->set_status(Header::ERROR);
                 }
                 delete m;
@@ -301,11 +322,16 @@ void UserThread::handlePackage() {
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 std::string musicname = musicInfo.name();
-                std::string path = "./music/" + musicname;
-                std::ifstream f(path.c_str(), std::ios::in|std::ios::binary);  
-                std::string data((std::istreambuf_iterator<char>(f)),  std::istreambuf_iterator<char>());  //read data into string
+                std::string musicpath = "./music/" + musicname + ".mp3";
+				std::string lyricpath = "./music/" + musicname + ".lrc";
+                std::ifstream f1(musicpath.c_str(), std::ios::in|std::ios::binary);
+				std::ifstream f2(lyricpath.c_str(), std::ios::in|std::ios::binary);
+                std::string data((std::istreambuf_iterator<char>(f1)),  std::istreambuf_iterator<char>());  //read music data into string
+                std::string lyric((std::istreambuf_iterator<char>(f2)),  std::istreambuf_iterator<char>());  //read lyric data into string
                 md.set_data(data);
-                f.close();
+				md.set_lyrics(lyric);
+                f1.close();
+				f2.close();
                 Header *header = ret.mutable_header();
                 header->set_type(Header::REPONSE);
                 header->set_resource(Header::GET_MUSICFILE);
@@ -397,7 +423,7 @@ void UserThread::handlePackage() {
                     QTcpSocket tcp;
                     Text send;
                     if(!tcp.setSocketDescriptor(tmp)) {
-                        emit error(tcpSocket.error());
+                        emit error(tcp.error());
                         qDebug() << "socket error!";
                         return;
                     }
@@ -414,8 +440,10 @@ void UserThread::handlePackage() {
                     QByteArray block;
                     QDataStream out1(&block, QIODevice::WriteOnly);
                     out1.setVersion(QDataStream::Qt_5_0);
-                    out1 << data1.c_str();
+                    out1.writeRawData(data1.c_str(), data1.length());
                     tcp.write(block);
+					tcp.write("$$");
+					tcp.flush();
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::CHAT);
@@ -429,13 +457,15 @@ void UserThread::handlePackage() {
 
         default : assert(0);
     }
-    std::string data; 
-    ret.SerializeToString(&data);
+    std::string raw;
+    ret.SerializeToString(&raw);
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_0);
-    out << data.c_str();
-    tcpSocket.write(block);
+    out.writeRawData(raw.c_str(), raw.length());
+    tcpSocket->write(block);
+	tcpSocket->write("$$");
+	//tcpSocket->flush();
 }
 
 bool UserThread::isLogin() {
@@ -447,6 +477,6 @@ void UserThread::onDisconnected() {
     database.close();
     UserThread::onlineUsers.removeOne(userId);
     UserThread::sockets.remove(userId);
-    tcpSocket.close();
+    tcpSocket->close();
     quit();
 }
