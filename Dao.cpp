@@ -20,9 +20,8 @@ Dao::Dao() {
 }
 
 void Dao::connect() {
-	char *buf[10];
 	db = QSqlDatabase::addDatabase("QMYSQL", dbName);
-	db.setDatabaseName(dbName);
+	//db.setDatabaseName(dbName);
 	db.setHostName("127.0.0.1");
 	db.setPort(3306);
 	db.setDatabaseName("CloudMusic");
@@ -35,8 +34,10 @@ void Dao::connect() {
 }
 
 void Dao::close() {
-	QSqlDatabase::removeDatabase(dbName);
+	qDebug() << "closing " << this->dbName;
 	db.close();
+	db = QSqlDatabase();
+	db.removeDatabase(this->dbName);
 }
 
 Model* Dao::getModelById(Type type, int id) {

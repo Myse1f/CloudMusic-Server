@@ -38,7 +38,7 @@ namespace protobuf_protocol_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[9];
+  static const ::google::protobuf::internal::ParseTable schema[10];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -60,6 +60,8 @@ void InitDefaultsCommentListImpl();
 void InitDefaultsCommentList();
 void InitDefaultsUserListImpl();
 void InitDefaultsUserList();
+void InitDefaultsTextImpl();
+void InitDefaultsText();
 void InitDefaultsDatapackageImpl();
 void InitDefaultsDatapackage();
 inline void InitDefaults() {
@@ -71,6 +73,7 @@ inline void InitDefaults() {
   InitDefaultsMusicData();
   InitDefaultsCommentList();
   InitDefaultsUserList();
+  InitDefaultsText();
   InitDefaultsDatapackage();
 }
 }  // namespace protobuf_protocol_2eproto
@@ -95,6 +98,9 @@ extern MusicInfoDefaultTypeInternal _MusicInfo_default_instance_;
 class MusicList;
 class MusicListDefaultTypeInternal;
 extern MusicListDefaultTypeInternal _MusicList_default_instance_;
+class Text;
+class TextDefaultTypeInternal;
+extern TextDefaultTypeInternal _Text_default_instance_;
 class UserInfo;
 class UserInfoDefaultTypeInternal;
 extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
@@ -136,12 +142,13 @@ enum Header_Resource {
   Header_Resource_GET_USERS = 9,
   Header_Resource_LOGOUT = 10,
   Header_Resource_FOLLOW = 11,
+  Header_Resource_CHAT = 12,
   Header_Resource_Header_Resource_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Header_Resource_Header_Resource_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Header_Resource_IsValid(int value);
 const Header_Resource Header_Resource_Resource_MIN = Header_Resource_LOGIN;
-const Header_Resource Header_Resource_Resource_MAX = Header_Resource_FOLLOW;
+const Header_Resource Header_Resource_Resource_MAX = Header_Resource_CHAT;
 const int Header_Resource_Resource_ARRAYSIZE = Header_Resource_Resource_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Header_Resource_descriptor();
@@ -176,6 +183,27 @@ inline bool Header_Status_Parse(
     const ::std::string& name, Header_Status* value) {
   return ::google::protobuf::internal::ParseNamedEnum<Header_Status>(
     Header_Status_descriptor(), name, value);
+}
+enum UserInfo_Status {
+  UserInfo_Status_ONLINE = 0,
+  UserInfo_Status_OFFLINE = 1,
+  UserInfo_Status_UserInfo_Status_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  UserInfo_Status_UserInfo_Status_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool UserInfo_Status_IsValid(int value);
+const UserInfo_Status UserInfo_Status_Status_MIN = UserInfo_Status_ONLINE;
+const UserInfo_Status UserInfo_Status_Status_MAX = UserInfo_Status_OFFLINE;
+const int UserInfo_Status_Status_ARRAYSIZE = UserInfo_Status_Status_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* UserInfo_Status_descriptor();
+inline const ::std::string& UserInfo_Status_Name(UserInfo_Status value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    UserInfo_Status_descriptor(), value);
+}
+inline bool UserInfo_Status_Parse(
+    const ::std::string& name, UserInfo_Status* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<UserInfo_Status>(
+    UserInfo_Status_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -310,6 +338,8 @@ class Header : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
     Header_Resource_LOGOUT;
   static const Resource FOLLOW =
     Header_Resource_FOLLOW;
+  static const Resource CHAT =
+    Header_Resource_CHAT;
   static inline bool Resource_IsValid(int value) {
     return Header_Resource_IsValid(value);
   }
@@ -474,6 +504,32 @@ class UserInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // nested types ----------------------------------------------------
 
+  typedef UserInfo_Status Status;
+  static const Status ONLINE =
+    UserInfo_Status_ONLINE;
+  static const Status OFFLINE =
+    UserInfo_Status_OFFLINE;
+  static inline bool Status_IsValid(int value) {
+    return UserInfo_Status_IsValid(value);
+  }
+  static const Status Status_MIN =
+    UserInfo_Status_Status_MIN;
+  static const Status Status_MAX =
+    UserInfo_Status_Status_MAX;
+  static const int Status_ARRAYSIZE =
+    UserInfo_Status_Status_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Status_descriptor() {
+    return UserInfo_Status_descriptor();
+  }
+  static inline const ::std::string& Status_Name(Status value) {
+    return UserInfo_Status_Name(value);
+  }
+  static inline bool Status_Parse(const ::std::string& name,
+      Status* value) {
+    return UserInfo_Status_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // string username = 1;
@@ -504,12 +560,19 @@ class UserInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_password();
   void set_allocated_password(::std::string* password);
 
+  // .UserInfo.Status status = 3;
+  void clear_status();
+  static const int kStatusFieldNumber = 3;
+  ::UserInfo_Status status() const;
+  void set_status(::UserInfo_Status value);
+
   // @@protoc_insertion_point(class_scope:UserInfo)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr username_;
   ::google::protobuf::internal::ArenaStringPtr password_;
+  int status_;
   mutable int _cached_size_;
   friend struct ::protobuf_protocol_2eproto::TableStruct;
   friend void ::protobuf_protocol_2eproto::InitDefaultsUserInfoImpl();
@@ -1020,11 +1083,26 @@ class MusicData : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_data();
   void set_allocated_data(::std::string* data);
 
+  // bytes lyrics = 2;
+  void clear_lyrics();
+  static const int kLyricsFieldNumber = 2;
+  const ::std::string& lyrics() const;
+  void set_lyrics(const ::std::string& value);
+  #if LANG_CXX11
+  void set_lyrics(::std::string&& value);
+  #endif
+  void set_lyrics(const char* value);
+  void set_lyrics(const void* value, size_t size);
+  ::std::string* mutable_lyrics();
+  ::std::string* release_lyrics();
+  void set_allocated_lyrics(::std::string* lyrics);
+
   // @@protoc_insertion_point(class_scope:MusicData)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr data_;
+  ::google::protobuf::internal::ArenaStringPtr lyrics_;
   mutable int _cached_size_;
   friend struct ::protobuf_protocol_2eproto::TableStruct;
   friend void ::protobuf_protocol_2eproto::InitDefaultsMusicDataImpl();
@@ -1241,6 +1319,143 @@ class UserList : public ::google::protobuf::Message /* @@protoc_insertion_point(
 };
 // -------------------------------------------------------------------
 
+class Text : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Text) */ {
+ public:
+  Text();
+  virtual ~Text();
+
+  Text(const Text& from);
+
+  inline Text& operator=(const Text& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Text(Text&& from) noexcept
+    : Text() {
+    *this = ::std::move(from);
+  }
+
+  inline Text& operator=(Text&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Text& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Text* internal_default_instance() {
+    return reinterpret_cast<const Text*>(
+               &_Text_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    8;
+
+  void Swap(Text* other);
+  friend void swap(Text& a, Text& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Text* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Text* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Text& from);
+  void MergeFrom(const Text& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Text* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string src = 1;
+  void clear_src();
+  static const int kSrcFieldNumber = 1;
+  const ::std::string& src() const;
+  void set_src(const ::std::string& value);
+  #if LANG_CXX11
+  void set_src(::std::string&& value);
+  #endif
+  void set_src(const char* value);
+  void set_src(const char* value, size_t size);
+  ::std::string* mutable_src();
+  ::std::string* release_src();
+  void set_allocated_src(::std::string* src);
+
+  // string dst = 2;
+  void clear_dst();
+  static const int kDstFieldNumber = 2;
+  const ::std::string& dst() const;
+  void set_dst(const ::std::string& value);
+  #if LANG_CXX11
+  void set_dst(::std::string&& value);
+  #endif
+  void set_dst(const char* value);
+  void set_dst(const char* value, size_t size);
+  ::std::string* mutable_dst();
+  ::std::string* release_dst();
+  void set_allocated_dst(::std::string* dst);
+
+  // string text = 3;
+  void clear_text();
+  static const int kTextFieldNumber = 3;
+  const ::std::string& text() const;
+  void set_text(const ::std::string& value);
+  #if LANG_CXX11
+  void set_text(::std::string&& value);
+  #endif
+  void set_text(const char* value);
+  void set_text(const char* value, size_t size);
+  ::std::string* mutable_text();
+  ::std::string* release_text();
+  void set_allocated_text(::std::string* text);
+
+  // @@protoc_insertion_point(class_scope:Text)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr src_;
+  ::google::protobuf::internal::ArenaStringPtr dst_;
+  ::google::protobuf::internal::ArenaStringPtr text_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_protocol_2eproto::TableStruct;
+  friend void ::protobuf_protocol_2eproto::InitDefaultsTextImpl();
+};
+// -------------------------------------------------------------------
+
 class Datapackage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Datapackage) */ {
  public:
   Datapackage();
@@ -1276,7 +1491,7 @@ class Datapackage : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_Datapackage_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(Datapackage* other);
   friend void swap(Datapackage& a, Datapackage& b) {
@@ -1512,6 +1727,20 @@ inline void UserInfo::set_allocated_password(::std::string* password) {
   }
   password_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), password);
   // @@protoc_insertion_point(field_set_allocated:UserInfo.password)
+}
+
+// .UserInfo.Status status = 3;
+inline void UserInfo::clear_status() {
+  status_ = 0;
+}
+inline ::UserInfo_Status UserInfo::status() const {
+  // @@protoc_insertion_point(field_get:UserInfo.status)
+  return static_cast< ::UserInfo_Status >(status_);
+}
+inline void UserInfo::set_status(::UserInfo_Status value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:UserInfo.status)
 }
 
 // -------------------------------------------------------------------
@@ -2012,6 +2241,59 @@ inline void MusicData::set_allocated_data(::std::string* data) {
   // @@protoc_insertion_point(field_set_allocated:MusicData.data)
 }
 
+// bytes lyrics = 2;
+inline void MusicData::clear_lyrics() {
+  lyrics_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& MusicData::lyrics() const {
+  // @@protoc_insertion_point(field_get:MusicData.lyrics)
+  return lyrics_.GetNoArena();
+}
+inline void MusicData::set_lyrics(const ::std::string& value) {
+  
+  lyrics_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:MusicData.lyrics)
+}
+#if LANG_CXX11
+inline void MusicData::set_lyrics(::std::string&& value) {
+  
+  lyrics_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:MusicData.lyrics)
+}
+#endif
+inline void MusicData::set_lyrics(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  lyrics_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:MusicData.lyrics)
+}
+inline void MusicData::set_lyrics(const void* value, size_t size) {
+  
+  lyrics_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:MusicData.lyrics)
+}
+inline ::std::string* MusicData::mutable_lyrics() {
+  
+  // @@protoc_insertion_point(field_mutable:MusicData.lyrics)
+  return lyrics_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* MusicData::release_lyrics() {
+  // @@protoc_insertion_point(field_release:MusicData.lyrics)
+  
+  return lyrics_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void MusicData::set_allocated_lyrics(::std::string* lyrics) {
+  if (lyrics != NULL) {
+    
+  } else {
+    
+  }
+  lyrics_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), lyrics);
+  // @@protoc_insertion_point(field_set_allocated:MusicData.lyrics)
+}
+
 // -------------------------------------------------------------------
 
 // CommentList
@@ -2078,6 +2360,169 @@ inline const ::google::protobuf::RepeatedPtrField< ::UserInfo >&
 UserList::userinfo() const {
   // @@protoc_insertion_point(field_list:UserList.userInfo)
   return userinfo_;
+}
+
+// -------------------------------------------------------------------
+
+// Text
+
+// string src = 1;
+inline void Text::clear_src() {
+  src_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Text::src() const {
+  // @@protoc_insertion_point(field_get:Text.src)
+  return src_.GetNoArena();
+}
+inline void Text::set_src(const ::std::string& value) {
+  
+  src_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:Text.src)
+}
+#if LANG_CXX11
+inline void Text::set_src(::std::string&& value) {
+  
+  src_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Text.src)
+}
+#endif
+inline void Text::set_src(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  src_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Text.src)
+}
+inline void Text::set_src(const char* value, size_t size) {
+  
+  src_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Text.src)
+}
+inline ::std::string* Text::mutable_src() {
+  
+  // @@protoc_insertion_point(field_mutable:Text.src)
+  return src_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Text::release_src() {
+  // @@protoc_insertion_point(field_release:Text.src)
+  
+  return src_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Text::set_allocated_src(::std::string* src) {
+  if (src != NULL) {
+    
+  } else {
+    
+  }
+  src_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), src);
+  // @@protoc_insertion_point(field_set_allocated:Text.src)
+}
+
+// string dst = 2;
+inline void Text::clear_dst() {
+  dst_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Text::dst() const {
+  // @@protoc_insertion_point(field_get:Text.dst)
+  return dst_.GetNoArena();
+}
+inline void Text::set_dst(const ::std::string& value) {
+  
+  dst_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:Text.dst)
+}
+#if LANG_CXX11
+inline void Text::set_dst(::std::string&& value) {
+  
+  dst_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Text.dst)
+}
+#endif
+inline void Text::set_dst(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  dst_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Text.dst)
+}
+inline void Text::set_dst(const char* value, size_t size) {
+  
+  dst_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Text.dst)
+}
+inline ::std::string* Text::mutable_dst() {
+  
+  // @@protoc_insertion_point(field_mutable:Text.dst)
+  return dst_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Text::release_dst() {
+  // @@protoc_insertion_point(field_release:Text.dst)
+  
+  return dst_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Text::set_allocated_dst(::std::string* dst) {
+  if (dst != NULL) {
+    
+  } else {
+    
+  }
+  dst_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dst);
+  // @@protoc_insertion_point(field_set_allocated:Text.dst)
+}
+
+// string text = 3;
+inline void Text::clear_text() {
+  text_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Text::text() const {
+  // @@protoc_insertion_point(field_get:Text.text)
+  return text_.GetNoArena();
+}
+inline void Text::set_text(const ::std::string& value) {
+  
+  text_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:Text.text)
+}
+#if LANG_CXX11
+inline void Text::set_text(::std::string&& value) {
+  
+  text_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Text.text)
+}
+#endif
+inline void Text::set_text(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  text_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Text.text)
+}
+inline void Text::set_text(const char* value, size_t size) {
+  
+  text_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Text.text)
+}
+inline ::std::string* Text::mutable_text() {
+  
+  // @@protoc_insertion_point(field_mutable:Text.text)
+  return text_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Text::release_text() {
+  // @@protoc_insertion_point(field_release:Text.text)
+  
+  return text_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Text::set_allocated_text(::std::string* text) {
+  if (text != NULL) {
+    
+  } else {
+    
+  }
+  text_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), text);
+  // @@protoc_insertion_point(field_set_allocated:Text.text)
 }
 
 // -------------------------------------------------------------------
@@ -2197,6 +2642,8 @@ inline void Datapackage::set_allocated_body(::google::protobuf::Any* body) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -2218,6 +2665,11 @@ template <> struct is_proto_enum< ::Header_Status> : ::google::protobuf::interna
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Header_Status>() {
   return ::Header_Status_descriptor();
+}
+template <> struct is_proto_enum< ::UserInfo_Status> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::UserInfo_Status>() {
+  return ::UserInfo_Status_descriptor();
 }
 
 }  // namespace protobuf

@@ -444,9 +444,9 @@ bool UserThread::isLogin() {
 
 void UserThread::onDisconnected() {
 	qDebug() << "disconnected";
+    database.close();
     UserThread::onlineUsers.removeOne(userId);
     UserThread::sockets.remove(userId);
     tcpSocket.close();
-    database.close();
     quit();
 }

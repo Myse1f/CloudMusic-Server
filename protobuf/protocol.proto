@@ -38,8 +38,8 @@ message UserInfo {
 	string username = 1;
 	string password = 2;
 	enum Status {
-		ONLINE = 1;
-		OFFLINE = 2;
+		ONLINE = 0;
+		OFFLINE = 1;
 	}
 	Status status = 3;
 }
