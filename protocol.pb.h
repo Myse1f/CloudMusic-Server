@@ -143,12 +143,13 @@ enum Header_Resource {
   Header_Resource_LOGOUT = 10,
   Header_Resource_FOLLOW = 11,
   Header_Resource_CHAT = 12,
+  Header_Resource_UPLOAD = 13,
   Header_Resource_Header_Resource_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Header_Resource_Header_Resource_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Header_Resource_IsValid(int value);
 const Header_Resource Header_Resource_Resource_MIN = Header_Resource_LOGIN;
-const Header_Resource Header_Resource_Resource_MAX = Header_Resource_CHAT;
+const Header_Resource Header_Resource_Resource_MAX = Header_Resource_UPLOAD;
 const int Header_Resource_Resource_ARRAYSIZE = Header_Resource_Resource_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Header_Resource_descriptor();
@@ -340,6 +341,8 @@ class Header : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
     Header_Resource_FOLLOW;
   static const Resource CHAT =
     Header_Resource_CHAT;
+  static const Resource UPLOAD =
+    Header_Resource_UPLOAD;
   static inline bool Resource_IsValid(int value) {
     return Header_Resource_IsValid(value);
   }
@@ -1083,26 +1086,41 @@ class MusicData : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_data();
   void set_allocated_data(::std::string* data);
 
-  // bytes lyrics = 2;
-  void clear_lyrics();
-  static const int kLyricsFieldNumber = 2;
-  const ::std::string& lyrics() const;
-  void set_lyrics(const ::std::string& value);
+  // bytes lyric = 2;
+  void clear_lyric();
+  static const int kLyricFieldNumber = 2;
+  const ::std::string& lyric() const;
+  void set_lyric(const ::std::string& value);
   #if LANG_CXX11
-  void set_lyrics(::std::string&& value);
+  void set_lyric(::std::string&& value);
   #endif
-  void set_lyrics(const char* value);
-  void set_lyrics(const void* value, size_t size);
-  ::std::string* mutable_lyrics();
-  ::std::string* release_lyrics();
-  void set_allocated_lyrics(::std::string* lyrics);
+  void set_lyric(const char* value);
+  void set_lyric(const void* value, size_t size);
+  ::std::string* mutable_lyric();
+  ::std::string* release_lyric();
+  void set_allocated_lyric(::std::string* lyric);
+
+  // string name = 3;
+  void clear_name();
+  static const int kNameFieldNumber = 3;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
 
   // @@protoc_insertion_point(class_scope:MusicData)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr data_;
-  ::google::protobuf::internal::ArenaStringPtr lyrics_;
+  ::google::protobuf::internal::ArenaStringPtr lyric_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
   mutable int _cached_size_;
   friend struct ::protobuf_protocol_2eproto::TableStruct;
   friend void ::protobuf_protocol_2eproto::InitDefaultsMusicDataImpl();
@@ -2241,57 +2259,110 @@ inline void MusicData::set_allocated_data(::std::string* data) {
   // @@protoc_insertion_point(field_set_allocated:MusicData.data)
 }
 
-// bytes lyrics = 2;
-inline void MusicData::clear_lyrics() {
-  lyrics_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// bytes lyric = 2;
+inline void MusicData::clear_lyric() {
+  lyric_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& MusicData::lyrics() const {
-  // @@protoc_insertion_point(field_get:MusicData.lyrics)
-  return lyrics_.GetNoArena();
+inline const ::std::string& MusicData::lyric() const {
+  // @@protoc_insertion_point(field_get:MusicData.lyric)
+  return lyric_.GetNoArena();
 }
-inline void MusicData::set_lyrics(const ::std::string& value) {
+inline void MusicData::set_lyric(const ::std::string& value) {
   
-  lyrics_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:MusicData.lyrics)
+  lyric_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:MusicData.lyric)
 }
 #if LANG_CXX11
-inline void MusicData::set_lyrics(::std::string&& value) {
+inline void MusicData::set_lyric(::std::string&& value) {
   
-  lyrics_.SetNoArena(
+  lyric_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:MusicData.lyrics)
+  // @@protoc_insertion_point(field_set_rvalue:MusicData.lyric)
 }
 #endif
-inline void MusicData::set_lyrics(const char* value) {
+inline void MusicData::set_lyric(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  lyrics_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:MusicData.lyrics)
+  lyric_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:MusicData.lyric)
 }
-inline void MusicData::set_lyrics(const void* value, size_t size) {
+inline void MusicData::set_lyric(const void* value, size_t size) {
   
-  lyrics_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  lyric_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:MusicData.lyrics)
+  // @@protoc_insertion_point(field_set_pointer:MusicData.lyric)
 }
-inline ::std::string* MusicData::mutable_lyrics() {
+inline ::std::string* MusicData::mutable_lyric() {
   
-  // @@protoc_insertion_point(field_mutable:MusicData.lyrics)
-  return lyrics_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:MusicData.lyric)
+  return lyric_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* MusicData::release_lyrics() {
-  // @@protoc_insertion_point(field_release:MusicData.lyrics)
+inline ::std::string* MusicData::release_lyric() {
+  // @@protoc_insertion_point(field_release:MusicData.lyric)
   
-  return lyrics_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return lyric_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void MusicData::set_allocated_lyrics(::std::string* lyrics) {
-  if (lyrics != NULL) {
+inline void MusicData::set_allocated_lyric(::std::string* lyric) {
+  if (lyric != NULL) {
     
   } else {
     
   }
-  lyrics_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), lyrics);
-  // @@protoc_insertion_point(field_set_allocated:MusicData.lyrics)
+  lyric_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), lyric);
+  // @@protoc_insertion_point(field_set_allocated:MusicData.lyric)
+}
+
+// string name = 3;
+inline void MusicData::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& MusicData::name() const {
+  // @@protoc_insertion_point(field_get:MusicData.name)
+  return name_.GetNoArena();
+}
+inline void MusicData::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:MusicData.name)
+}
+#if LANG_CXX11
+inline void MusicData::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:MusicData.name)
+}
+#endif
+inline void MusicData::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:MusicData.name)
+}
+inline void MusicData::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:MusicData.name)
+}
+inline ::std::string* MusicData::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:MusicData.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* MusicData::release_name() {
+  // @@protoc_insertion_point(field_release:MusicData.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void MusicData::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:MusicData.name)
 }
 
 // -------------------------------------------------------------------

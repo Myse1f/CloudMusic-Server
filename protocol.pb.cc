@@ -336,7 +336,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MusicData, data_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MusicData, lyrics_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MusicData, lyric_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MusicData, name_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CommentList, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -372,10 +373,10 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 23, -1, sizeof(::CommentInfo)},
   { 34, -1, sizeof(::MusicList)},
   { 41, -1, sizeof(::MusicData)},
-  { 48, -1, sizeof(::CommentList)},
-  { 54, -1, sizeof(::UserList)},
-  { 60, -1, sizeof(::Text)},
-  { 68, -1, sizeof(::Datapackage)},
+  { 49, -1, sizeof(::CommentList)},
+  { 55, -1, sizeof(::UserList)},
+  { 61, -1, sizeof(::Text)},
+  { 69, -1, sizeof(::Datapackage)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -414,35 +415,35 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016protocol.proto\032\031google/protobuf/any.pr"
-      "oto\"\215\003\n\006Header\022\032\n\004type\030\001 \001(\0162\014.Header.Ty"
+      "oto\"\231\003\n\006Header\022\032\n\004type\030\001 \001(\0162\014.Header.Ty"
       "pe\022\"\n\010resource\030\002 \001(\0162\020.Header.Resource\022\036"
       "\n\006status\030\003 \001(\0162\016.Header.Status\" \n\004Type\022\013"
-      "\n\007REQUEST\020\000\022\013\n\007REPONSE\020\001\"\303\001\n\010Resource\022\t\n"
+      "\n\007REQUEST\020\000\022\013\n\007REPONSE\020\001\"\317\001\n\010Resource\022\t\n"
       "\005LOGIN\020\000\022\014\n\010REGISTER\020\001\022\020\n\014SEARCH_MUSIC\020\002"
       "\022\017\n\013SEARCH_USER\020\003\022\013\n\007COMMENT\020\004\022\010\n\004LIKE\020\005"
       "\022\020\n\014GET_COMMENTS\020\006\022\016\n\nGET_MUSICS\020\007\022\021\n\rGE"
       "T_MUSICFILE\020\010\022\r\n\tGET_USERS\020\t\022\n\n\006LOGOUT\020\n"
-      "\022\n\n\006FOLLOW\020\013\022\010\n\004CHAT\020\014\";\n\006Status\022\006\n\002OK\020\000"
-      "\022\020\n\014UNAUTHORIZED\020\001\022\014\n\010NOTFOUND\020\002\022\t\n\005ERRO"
-      "R\020\003\"s\n\010UserInfo\022\020\n\010username\030\001 \001(\t\022\020\n\010pas"
-      "sword\030\002 \001(\t\022 \n\006status\030\003 \001(\0162\020.UserInfo.S"
-      "tatus\"!\n\006Status\022\n\n\006ONLINE\020\000\022\013\n\007OFFLINE\020\001"
-      "\")\n\tMusicInfo\022\014\n\004name\030\001 \001(\t\022\016\n\006singer\030\002 "
-      "\001(\t\"l\n\013CommentInfo\022\n\n\002id\030\001 \001(\005\022\017\n\007conten"
-      "t\030\002 \001(\t\022\020\n\010username\030\003 \001(\t\022\014\n\004date\030\004 \001(\t\022"
-      "\r\n\005thumb\030\005 \001(\005\022\021\n\tmusicname\030\006 \001(\t\"<\n\tMus"
-      "icList\022\020\n\010username\030\001 \001(\t\022\035\n\tmusicInfo\030\002 "
-      "\003(\0132\n.MusicInfo\")\n\tMusicData\022\014\n\004data\030\001 \001"
-      "(\014\022\016\n\006lyrics\030\002 \001(\014\"0\n\013CommentList\022!\n\013com"
-      "mentInfo\030\001 \003(\0132\014.CommentInfo\"\'\n\010UserList"
-      "\022\033\n\010userInfo\030\001 \003(\0132\t.UserInfo\".\n\004Text\022\013\n"
-      "\003src\030\001 \001(\t\022\013\n\003dst\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\"J\n"
-      "\013Datapackage\022\027\n\006header\030\001 \001(\0132\007.Header\022\"\n"
-      "\004body\030\002 \001(\0132\024.google.protobuf.Anyb\006proto"
-      "3"
+      "\022\n\n\006FOLLOW\020\013\022\010\n\004CHAT\020\014\022\n\n\006UPLOAD\020\r\";\n\006St"
+      "atus\022\006\n\002OK\020\000\022\020\n\014UNAUTHORIZED\020\001\022\014\n\010NOTFOU"
+      "ND\020\002\022\t\n\005ERROR\020\003\"s\n\010UserInfo\022\020\n\010username\030"
+      "\001 \001(\t\022\020\n\010password\030\002 \001(\t\022 \n\006status\030\003 \001(\0162"
+      "\020.UserInfo.Status\"!\n\006Status\022\n\n\006ONLINE\020\000\022"
+      "\013\n\007OFFLINE\020\001\")\n\tMusicInfo\022\014\n\004name\030\001 \001(\t\022"
+      "\016\n\006singer\030\002 \001(\t\"l\n\013CommentInfo\022\n\n\002id\030\001 \001"
+      "(\005\022\017\n\007content\030\002 \001(\t\022\020\n\010username\030\003 \001(\t\022\014\n"
+      "\004date\030\004 \001(\t\022\r\n\005thumb\030\005 \001(\005\022\021\n\tmusicname\030"
+      "\006 \001(\t\"<\n\tMusicList\022\020\n\010username\030\001 \001(\t\022\035\n\t"
+      "musicInfo\030\002 \003(\0132\n.MusicInfo\"6\n\tMusicData"
+      "\022\014\n\004data\030\001 \001(\014\022\r\n\005lyric\030\002 \001(\014\022\014\n\004name\030\003 "
+      "\001(\t\"0\n\013CommentList\022!\n\013commentInfo\030\001 \003(\0132"
+      "\014.CommentInfo\"\'\n\010UserList\022\033\n\010userInfo\030\001 "
+      "\003(\0132\t.UserInfo\".\n\004Text\022\013\n\003src\030\001 \001(\t\022\013\n\003d"
+      "st\030\002 \001(\t\022\014\n\004text\030\003 \001(\t\"J\n\013Datapackage\022\027\n"
+      "\006header\030\001 \001(\0132\007.Header\022\"\n\004body\030\002 \001(\0132\024.g"
+      "oogle.protobuf.Anyb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1041);
+      descriptor, 1066);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "protocol.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fany_2eproto::AddDescriptors();
@@ -499,6 +500,7 @@ bool Header_Resource_IsValid(int value) {
     case 10:
     case 11:
     case 12:
+    case 13:
       return true;
     default:
       return false;
@@ -519,6 +521,7 @@ const Header_Resource Header::GET_USERS;
 const Header_Resource Header::LOGOUT;
 const Header_Resource Header::FOLLOW;
 const Header_Resource Header::CHAT;
+const Header_Resource Header::UPLOAD;
 const Header_Resource Header::Resource_MIN;
 const Header_Resource Header::Resource_MAX;
 const int Header::Resource_ARRAYSIZE;
@@ -2371,7 +2374,8 @@ void MusicData::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int MusicData::kDataFieldNumber;
-const int MusicData::kLyricsFieldNumber;
+const int MusicData::kLyricFieldNumber;
+const int MusicData::kNameFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 MusicData::MusicData()
@@ -2391,16 +2395,21 @@ MusicData::MusicData(const MusicData& from)
   if (from.data().size() > 0) {
     data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
   }
-  lyrics_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.lyrics().size() > 0) {
-    lyrics_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.lyrics_);
+  lyric_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.lyric().size() > 0) {
+    lyric_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.lyric_);
+  }
+  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.name().size() > 0) {
+    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
   // @@protoc_insertion_point(copy_constructor:MusicData)
 }
 
 void MusicData::SharedCtor() {
   data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  lyrics_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  lyric_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   _cached_size_ = 0;
 }
 
@@ -2411,7 +2420,8 @@ MusicData::~MusicData() {
 
 void MusicData::SharedDtor() {
   data_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  lyrics_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  lyric_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void MusicData::SetCachedSize(int size) const {
@@ -2444,7 +2454,8 @@ void MusicData::Clear() {
   (void) cached_has_bits;
 
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  lyrics_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  lyric_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   _internal_metadata_.Clear();
 }
 
@@ -2470,12 +2481,28 @@ bool MusicData::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes lyrics = 2;
+      // bytes lyric = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_lyrics()));
+                input, this->mutable_lyric()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string name = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->name().data(), static_cast<int>(this->name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "MusicData.name"));
         } else {
           goto handle_unusual;
         }
@@ -2514,10 +2541,20 @@ void MusicData::SerializeWithCachedSizes(
       1, this->data(), output);
   }
 
-  // bytes lyrics = 2;
-  if (this->lyrics().size() > 0) {
+  // bytes lyric = 2;
+  if (this->lyric().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      2, this->lyrics(), output);
+      2, this->lyric(), output);
+  }
+
+  // string name = 3;
+  if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "MusicData.name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->name(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2541,11 +2578,22 @@ void MusicData::SerializeWithCachedSizes(
         1, this->data(), target);
   }
 
-  // bytes lyrics = 2;
-  if (this->lyrics().size() > 0) {
+  // bytes lyric = 2;
+  if (this->lyric().size() > 0) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        2, this->lyrics(), target);
+        2, this->lyric(), target);
+  }
+
+  // string name = 3;
+  if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "MusicData.name");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->name(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2572,11 +2620,18 @@ size_t MusicData::ByteSizeLong() const {
         this->data());
   }
 
-  // bytes lyrics = 2;
-  if (this->lyrics().size() > 0) {
+  // bytes lyric = 2;
+  if (this->lyric().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->lyrics());
+        this->lyric());
+  }
+
+  // string name = 3;
+  if (this->name().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->name());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -2612,9 +2667,13 @@ void MusicData::MergeFrom(const MusicData& from) {
 
     data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
   }
-  if (from.lyrics().size() > 0) {
+  if (from.lyric().size() > 0) {
 
-    lyrics_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.lyrics_);
+    lyric_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.lyric_);
+  }
+  if (from.name().size() > 0) {
+
+    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
 }
 
@@ -2643,7 +2702,8 @@ void MusicData::Swap(MusicData* other) {
 void MusicData::InternalSwap(MusicData* other) {
   using std::swap;
   data_.Swap(&other->data_);
-  lyrics_.Swap(&other->lyrics_);
+  lyric_.Swap(&other->lyric_);
+  name_.Swap(&other->name_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
