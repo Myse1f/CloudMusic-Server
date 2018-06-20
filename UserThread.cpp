@@ -38,7 +38,7 @@ void UserThread::run() {
 	//qDebug() << "wait disconnect";
 	//tcpSocket->waitForDisconnected(-1);
 	exec();
-	qDebug() << "disconnecting";
+	//qDebug() << "disconnecting";
     //exec();
 }
 
@@ -410,6 +410,7 @@ void UserThread::handlePackage() {
                 Text txt;
                 any.UnpackTo(&txt);
                 std::string dst = txt.dst();
+                qDebug() << "Chat with " + dst.c_str();
                 Model *m = database.getModelByName(user, dst.c_str());
                 assert(m);
                 //std::string text = txt.text();
@@ -420,35 +421,12 @@ void UserThread::handlePackage() {
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::CHAT);
                     header->set_status(Header::ERROR);
-                    return;
                 }
                 else {
                     qintptr tmp = it.value();
-                    Datapackage anotherDp;
-                    QTcpSocket tcp;
-                    Text send;
-                    if(!tcp.setSocketDescriptor(tmp)) {
-                        emit error(tcp.error());
-                        qDebug() << "socket error!";
-                        return;
-                    }
-                    send.set_src(txt.src());
-                    send.set_dst(txt.dst());
-                    send.set_text(txt.text());
-                    Header *header1 = anotherDp.mutable_header();
-                    header1->set_type(Header::REQUEST);
-                    header1->set_resource(Header::CHAT);
-                    header1->set_status(Header::OK);
-                    anotherDp.mutable_body()->PackFrom(send);
-                    std::string data1; 
-                    anotherDp.SerializeToString(&data1);
-                    QByteArray block;
-                    QDataStream out1(&block, QIODevice::WriteOnly);
-                    out1.setVersion(QDataStream::Qt_5_0);
-                    out1.writeRawData(data1.c_str(), data1.length());
-                    tcp.write(block);
-					tcp.write("$$");
-					tcp.flush();
+                    std::string src = txt.src();
+                    std::string text = txt.text();
+                    emit sendMsg(tmp, src, text);
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::CHAT);
@@ -527,4 +505,25 @@ void UserThread::onDisconnected() {
     UserThread::sockets.remove(userId);
     tcpSocket->close();
     quit();
+}
+
+void UserThread::sendMessage(std::string src, std::string text) {
+    Text send;
+    Datapackage sendDp;
+    send.set_src(src);
+    send.set_text(text);
+    Header *header = sendDp.mutable_header();
+    header->set_type(Header::REQUEST);
+    header->set_resource(Header::CHAT);
+    header->set_status(Header::OK);
+    sendDp.mutable_body()->PackFrom(send);
+    std::string data; 
+    sendDp.SerializeToString(&data);
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_0);
+    out.writeRawData(data.c_str(), data.length());
+    tcpSocket->write(block);
+    tcpSocket->write("$$");
+    tcpSocket->flush();
 }

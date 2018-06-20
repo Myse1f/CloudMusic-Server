@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
+#include <string>
 #include "UserThread.h"
 
 class Server : public QTcpServer {
@@ -13,11 +14,16 @@ class Server : public QTcpServer {
 public:
     Server(QObject *parent = 0);
 	void run();
-    // QVector<qintptr>& getSockets();
+
+private:
+    QMap<qintptr, UserThread*> threadMap;
     // QVector<int>& getOnlineUsers();
 
 protected:
     void incomingConnection(qintptr socketDescriptor) override;
+
+public slots:
+    void fowardMsg(qintptr, std::string, std::string);
 };
 
 #endif

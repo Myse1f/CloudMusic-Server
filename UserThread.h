@@ -27,10 +27,12 @@ public:
     UserThread(int socketDescriptor, QObject *parent);
     void run() override;
     bool isLogin();
+    void sendMessage(std::string src, std::string text);
 
 signals:
     void error(QTcpSocket::SocketError socketError);
     void readPackage();
+    void sendMsg(qintptr, std::string, std::string);
 
 private slots:
     void readData();
