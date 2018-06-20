@@ -1,2 +1,22 @@
 nohup: ignoring input
 Server
+new connection
+new Thread
+disconnected
+closing  "db0"
+enter run
+disconnecting
+new connection
+new Thread
+reading
+enter run
+disconnected
+closing  "db1"
+disconnecting
+new connection
+new Thread
+enter run
+reading
+new package:  207
+false
+CloudMusic: UserThread.cpp:118: void UserThread::handlePackage(): Assertion `0' failed.

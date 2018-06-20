@@ -410,7 +410,7 @@ void UserThread::handlePackage() {
                 Text txt;
                 any.UnpackTo(&txt);
                 std::string dst = txt.dst();
-                qDebug() << "Chat with " + dst.c_str();
+                qDebug() << "Chat with " << dst.c_str();
                 Model *m = database.getModelByName(user, dst.c_str());
                 assert(m);
                 //std::string text = txt.text();

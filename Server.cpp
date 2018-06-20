@@ -12,7 +12,7 @@ Server::Server(QObject *parent) : QTcpServer(parent) {
 void Server::incomingConnection(qintptr socketDescriptor) {
 	qDebug() << "new connection";
     UserThread *thread = new UserThread(socketDescriptor, this);
-	threadMap.insert(qintptr, thread);
+	threadMap.insert(socketDescriptor, thread);
 	connect(thread, SIGNAL(sendMsg(qintptr)), this, SLOT(fowardMsg(qintptr)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
