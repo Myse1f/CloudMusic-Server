@@ -508,6 +508,7 @@ void UserThread::onDisconnected() {
 }
 
 void UserThread::sendMessage(std::string src, std::string text) {
+    qDebug() << "message sent by " << src.c_str(); 
     Text send;
     Datapackage sendDp;
     send.set_src(src);
