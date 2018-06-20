@@ -158,7 +158,7 @@ void UserThread::handlePackage() {
                 any.UnpackTo(&musicInfo);
                 std::string name = musicInfo.name();
                 std::vector<int> musicIdVector0 = database.getMusicsByName(name.c_str());
-                std::vector<int> musicIdVector1 = database.getMusicsBySinger(name.c_str());
+                //std::vector<int> musicIdVector1 = database.getMusicsBySinger(name.c_str());
                 for(std::vector<int>::iterator it = musicIdVector0.begin(); it != musicIdVector0.end(); it ++) {
                     Model *m = database.getModelById(music, *it);
                     MusicInfo *mi = ml.add_musicinfo();
@@ -166,13 +166,13 @@ void UserThread::handlePackage() {
                     mi->set_singer(dynamic_cast<MusicModel*>(m)->getSinger());
                     delete m;
                 }
-                for(std::vector<int>::iterator it = musicIdVector1.begin(); it != musicIdVector1.end(); it ++) {
-                    Model *m = database.getModelById(music, *it);
-                    MusicInfo *mi = ml.add_musicinfo();
-                    mi->set_name(dynamic_cast<MusicModel*>(m)->getName());
-                    mi->set_singer(dynamic_cast<MusicModel*>(m)->getSinger());
-                    delete m;
-                }
+                // for(std::vector<int>::iterator it = musicIdVector1.begin(); it != musicIdVector1.end(); it ++) {
+                //     Model *m = database.getModelById(music, *it);
+                //     MusicInfo *mi = ml.add_musicinfo();
+                //     mi->set_name(dynamic_cast<MusicModel*>(m)->getName());
+                //     mi->set_singer(dynamic_cast<MusicModel*>(m)->getSinger());
+                //     delete m;
+                // }
                 Header *header = ret.mutable_header();
                 header->set_type(Header::REPONSE);
                 header->set_resource(Header::SEARCH_MUSIC);
@@ -327,14 +327,14 @@ void UserThread::handlePackage() {
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 std::string musicname = musicInfo.name();
-                std::string musicpath = "./music/" + musicname + ".mp3";
+                std::string musicpath = "./music/" + musicname + ".wav";
 				std::string lyricpath = "./music/" + musicname + ".lrc";
                 std::ifstream f1(musicpath.c_str(), std::ios::in|std::ios::binary);
 				std::ifstream f2(lyricpath.c_str(), std::ios::in|std::ios::binary);
                 std::string data((std::istreambuf_iterator<char>(f1)),  std::istreambuf_iterator<char>());  //read music data into string
                 std::string lyric((std::istreambuf_iterator<char>(f2)),  std::istreambuf_iterator<char>());  //read lyric data into string
                 md.set_data(data);
-				md.set_lyrics(lyric);
+				md.set_lyric(lyric);
                 f1.close();
 				f2.close();
                 Header *header = ret.mutable_header();
@@ -457,6 +457,44 @@ void UserThread::handlePackage() {
             }
             else
                 assert(0);
+            break;
+        }
+
+        case Header::UPLOAD : {
+            qDebug() << "Request upload music";
+            const ::google::protobuf::Any& any = dp.body();
+            if(any.Is<MusicData>()) { // must be true 
+                MusicData md;
+                any.UnpackTo(&md);
+                std::string musicname = md.name();
+                Model *m = database.getModelByName(music, musicname.c_str());
+                if(!m) { //music not exist
+                    qDebug() << "uploading!";
+                    std::string data = md.data();
+                    std::string lyric = md.lyric();
+                    std::string musicpath = "./music/" + musicname + ".wav";
+				    std::string lyricpath = "./music/" + musicname + ".lrc";
+                    std::ofstream f1(musicpath.c_str(), std::ios::out|std::ios::binary);
+				    std::ofstream f2(lyricpath.c_str(), std::ios::out|std::ios::binary);
+                    f1.write(data.c_str(), data.length());
+                    f1.write(lyric.c_str(), lyric.length());
+                    f1.close();
+                    f2.close();
+                    Header *header = ret.mutable_header();
+                    header->set_type(Header::REPONSE);
+                    header->set_resource(Header::UPLOAD);
+                    header->set_status(Header::OK);
+                    qDebug() << "upload finish!";
+                }
+                else {
+                    Header *header = ret.mutable_header();
+                    header->set_type(Header::REPONSE);
+                    header->set_resource(Header::UPLOAD);
+                    header->set_status(Header::ERROR);
+                }
+            }
+            else 
+                assert(0);           
             break;
         }
 

@@ -22,6 +22,7 @@ message Header {
 		LOGOUT = 10;
 		FOLLOW = 11;
 		CHAT = 12;
+		UPLOAD = 13;
 	}
 	Resource resource = 2;
 	
@@ -65,7 +66,8 @@ message MusicList {
 
 message MusicData {
 	bytes data = 1;
-	bytes lyrics = 2;
+	bytes lyric = 2;
+	string name = 3;
 }
 
 message CommentList {
