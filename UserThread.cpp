@@ -93,7 +93,9 @@ void UserThread::handlePackage() {
                 std::string username = userInfo.username();
                 std::string password = userInfo.password();
                 Model *m = database.getModelByName(user, username.c_str());
-                if(!m && dynamic_cast<UserModel*>(m)->getPass() == password) {
+				qDebug() << username.c_str() << password.c_str();
+				if(!m) qDebug() << "model is null!";
+                if(m && dynamic_cast<UserModel*>(m)->getPass() == password) {
                     userId = m->getId();
                     UserThread::onlineUsers.push_back(userId);
                     UserThread::sockets.insert(userId, socketDescriptor);
@@ -189,8 +191,10 @@ void UserThread::handlePackage() {
                 UserInfo userInfo;
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
+				qDebug() << "Search user" << username.c_str();
                 Model *m = database.getModelByName(user, username.c_str());
-                if(!m) { //the user exist
+                if(m) { //the user exist
+					qDebug() << "User " << m->getId() << "exsit";
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::SEARCH_USER);
@@ -202,6 +206,7 @@ void UserThread::handlePackage() {
                         ui.set_status(UserInfo::OFFLINE);
                 }
                 else { // not exist
+					qDebug() << "User not exsit";
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::SEARCH_USER);
