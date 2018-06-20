@@ -480,6 +480,10 @@ void UserThread::handlePackage() {
                     f1.write(lyric.c_str(), lyric.length());
                     f1.close();
                     f2.close();
+					//add infomation into database
+					m = new MusicModel(musicname, "");
+					database.addModel(m);
+					delete m;
                     Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::UPLOAD);
@@ -491,7 +495,8 @@ void UserThread::handlePackage() {
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::UPLOAD);
                     header->set_status(Header::ERROR);
-                }
+                	delete m; //free memory
+				}
             }
             else 
                 assert(0);           
