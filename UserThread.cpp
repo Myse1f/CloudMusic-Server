@@ -51,21 +51,21 @@ void UserThread::readData() {
 	//qDebug() << total;
 	while(total--) {
 		in.readRawData(data, 1);
-    	if(data[0] == '$')
+    	if(data[0] == '#')
 			flag ++;
 		else
 			flag = 0;
 		raw.append(std::string(data,1));
-		if(flag == 2) {
+		if(flag == 10) {
     		break;
 		}
 	}
     
-	if(flag == 2) { //a complete package
+	if(flag == 10) { //a complete package
 		//qDebug() << "Complete package";	
 		flag = 0;
-		raw.pop_back(); //pop $$
-		raw.pop_back();
+		for(int i=0; i<10; i++)
+			raw.pop_back(); //pop 10#
     	dp.ParseFromString(raw);
    		qDebug() << "new package: " << raw.length(); 
 		raw.clear();
@@ -154,6 +154,7 @@ void UserThread::handlePackage() {
             const ::google::protobuf::Any& any = dp.body();
             MusicList ml;
             if(any.Is<MusicInfo>()) { // must be true 
+				qDebug() << "Search Music";
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 std::string name = musicInfo.name();
@@ -161,9 +162,11 @@ void UserThread::handlePackage() {
                 //std::vector<int> musicIdVector1 = database.getMusicsBySinger(name.c_str());
                 for(std::vector<int>::iterator it = musicIdVector0.begin(); it != musicIdVector0.end(); it ++) {
                     Model *m = database.getModelById(music, *it);
-                    MusicInfo *mi = ml.add_musicinfo();
+                    qDebug() << "Music " << *it;
+					MusicInfo *mi = ml.add_musicinfo();
+                    qDebug() << (dynamic_cast<MusicModel*>(m)->getName()).c_str();
                     mi->set_name(dynamic_cast<MusicModel*>(m)->getName());
-                    mi->set_singer(dynamic_cast<MusicModel*>(m)->getSinger());
+                    //mi->set_singer(dynamic_cast<MusicModel*>(m)->getSinger());
                     delete m;
                 }
                 // for(std::vector<int>::iterator it = musicIdVector1.begin(); it != musicIdVector1.end(); it ++) {
@@ -178,6 +181,7 @@ void UserThread::handlePackage() {
                 header->set_resource(Header::SEARCH_MUSIC);
                 header->set_status(Header::OK);
                 ret.mutable_body()->PackFrom(ml);
+				qDebug() << "Search end";
             }
             else 
                 assert(0);           
@@ -200,10 +204,15 @@ void UserThread::handlePackage() {
                     header->set_resource(Header::SEARCH_USER);
                     header->set_status(Header::OK);
                     ui.set_username(username);
-                    if(UserThread::onlineUsers.contains(m->getId()))
+                    if(UserThread::onlineUsers.contains(m->getId())){
+						qDebug() << "user "  << m->getId() << " online";
                         ui.set_status(UserInfo::ONLINE);
-                    else
+					}
+                    else {
+						qDebug() << "user " << m->getId() << " offline";
                         ui.set_status(UserInfo::OFFLINE);
+					}
+					ret.mutable_body()->PackFrom(ui);
                 }
                 else { // not exist
 					qDebug() << "User not exsit";
@@ -212,6 +221,7 @@ void UserThread::handlePackage() {
                     header->set_resource(Header::SEARCH_USER);
                     header->set_status(Header::NOTFOUND);
                 }
+				delete m;
             }
             else 
                 assert(0);           
@@ -221,6 +231,7 @@ void UserThread::handlePackage() {
         case Header::COMMENT : {
             const ::google::protobuf::Any& any = dp.body();
             if(any.Is<CommentInfo>()) { // must be true 
+				qDebug() << "comment";
                 CommentInfo commentInfo;
                 any.UnpackTo(&commentInfo);
                 std::string username = commentInfo.username();
@@ -228,7 +239,8 @@ void UserThread::handlePackage() {
                 Model *um = database.getModelByName(user, username.c_str());
                 Model *mm = database.getModelByName(music, musicname.c_str());
                 Model *m = new CommentModel(commentInfo.content(), um->getId(), mm->getId(), 0, commentInfo.date());
-                database.addModel(m);
+              	qDebug() << "User" << um->getId() << " comment in music " << mm->getId() << " with " << commentInfo.content().c_str();
+				database.addModel(m);
                 delete um; delete mm; delete m;
                 Header *header = ret.mutable_header();
                 header->set_type(Header::REPONSE);
@@ -264,6 +276,7 @@ void UserThread::handlePackage() {
             const ::google::protobuf::Any& any = dp.body();
             CommentList cl;
             if(any.Is<MusicInfo>()) { // must be true 
+				qDebug() << "Get comments";
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 Model *m = database.getModelByName(music, musicInfo.name().c_str());
@@ -278,7 +291,7 @@ void UserThread::handlePackage() {
                     ci->set_username(dynamic_cast<UserModel*>(m)->getName());
                     delete um;
                     ci->set_date(dynamic_cast<CommentModel*>(m)->getDate());
-                    ci->set_thumb(dynamic_cast<CommentModel*>(m)->getThumb());
+                    //ci->set_thumb(dynamic_cast<CommentModel*>(m)->getThumb());
                     delete m;
                 }
                 Header *header = ret.mutable_header();
@@ -407,6 +420,7 @@ void UserThread::handlePackage() {
         case Header::CHAT : {
             const ::google::protobuf::Any& any = dp.body();
             if(any.Is<Text>()) {
+				qDebug() << "chat";
                 Text txt;
                 any.UnpackTo(&txt);
                 std::string dst = txt.dst();
@@ -445,6 +459,7 @@ void UserThread::handlePackage() {
                 MusicData md;
                 any.UnpackTo(&md);
                 std::string musicname = md.name();
+				qDebug() << musicname.c_str();
                 Model *m = database.getModelByName(music, musicname.c_str());
                 if(!m) { //music not exist
                     qDebug() << "uploading!";
@@ -455,7 +470,7 @@ void UserThread::handlePackage() {
                     std::ofstream f1(musicpath.c_str(), std::ios::out|std::ios::binary);
 				    std::ofstream f2(lyricpath.c_str(), std::ios::out|std::ios::binary);
                     f1.write(data.c_str(), data.length());
-                    f1.write(lyric.c_str(), lyric.length());
+                    f2.write(lyric.c_str(), lyric.length());
                     f1.close();
                     f2.close();
 					//add infomation into database
@@ -490,7 +505,7 @@ void UserThread::handlePackage() {
     out.setVersion(QDataStream::Qt_5_0);
     out.writeRawData(raw.c_str(), raw.length());
     tcpSocket->write(block);
-	tcpSocket->write("$$");
+	tcpSocket->write("##########");
 	//tcpSocket->flush();
 }
 
@@ -525,6 +540,6 @@ void UserThread::sendMessage(std::string src, std::string text) {
     out.setVersion(QDataStream::Qt_5_0);
     out.writeRawData(data.c_str(), data.length());
     tcpSocket->write(block);
-    tcpSocket->write("$$");
+    tcpSocket->write("##########");
     tcpSocket->flush();
 }

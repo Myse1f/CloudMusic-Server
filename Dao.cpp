@@ -211,6 +211,7 @@ bool Dao::addModel(Model* model) {
 			MusicModel *m = dynamic_cast<MusicModel*>(model);
 			query.prepare("INSERT INTO music (name, singer) VALUES (:name, :singer)");
 			query.bindValue(":name", m->getName().c_str());
+			query.bindValue(":singer", m->getSinger().c_str());
 			query.exec();
 			break;
 		}

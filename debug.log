@@ -2,21 +2,66 @@ nohup: ignoring input
 Server
 new connection
 new Thread
+QObject::connect: No such signal UserThread::sendMsg(qintptr)
+reading
+new package:  46
+true
+enter run
+jzf jzf
+reading
+new package:  152
+Request upload music
+uploading!
+upload finish!
+reading
+new package:  152
+Request upload music
+reading
+new package:  44
+Search user love
+User not exsit
+reading
+new package:  45
+reading
+new package:  43
+Search user jzf
+User  1 exsit
+reading
+new package:  44
 disconnected
 closing  "db0"
-enter run
-disconnecting
 new connection
 new Thread
+QObject::connect: No such signal UserThread::sendMsg(qintptr)
 reading
+new package:  46
+true
+jzf jzf
 enter run
 disconnected
 closing  "db1"
-disconnecting
 new connection
 new Thread
-enter run
+QObject::connect: No such signal UserThread::sendMsg(qintptr)
 reading
-new package:  207
-false
-CloudMusic: UserThread.cpp:118: void UserThread::handlePackage(): Assertion `0' failed.
+new package:  46
+true
+enter run
+jzf jzf
+reading
+new package:  43
+Search user jzf
+User  1 exsit
+reading
+new package:  43
+Search user jzf
+User  1 exsit
+reading
+new package:  44
+reading
+new package:  44
+reading
+new package:  152
+Request upload music
+uploading!
+upload finish!
