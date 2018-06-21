@@ -15,7 +15,7 @@
 QMap<int,qintptr> UserThread::sockets;
 QVector<int> UserThread::onlineUsers;
 
-UserThread::UserThread(int socketDescriptor, QObject *parent): QThread(parent), socketDescriptor(socketDescriptor) {
+UserThread::UserThread(int socketDescriptor): socketDescriptor(socketDescriptor) {
     userId = -1;
 	qDebug() << "new Thread";
 	tcpSocket = new QTcpSocket();
@@ -31,18 +31,19 @@ UserThread::UserThread(int socketDescriptor, QObject *parent): QThread(parent), 
     in.setVersion(QDataStream::Qt_5_0);
 }
 
-void UserThread::run() {
-	qDebug() << "enter run"; 
+//void UserThread::run() {
+//	qDebug() << "enter run"; 
     // while(!ready) ; //busy waiting for data ready, not a good idea
     //                 //maybe mutex or semaphor is better
 	//qDebug() << "wait disconnect";
 	//tcpSocket->waitForDisconnected(-1);
-	exec();
+//	exec();
 	//qDebug() << "disconnecting";
     //exec();
-}
+//}
 
 void UserThread::readData() {
+	qDebug() << "thread id is " << QThread::currentThreadId();
    	qDebug() << "reading"; 
     //in.startTransaction();
     static int flag = 0;
@@ -519,7 +520,8 @@ void UserThread::onDisconnected() {
     UserThread::onlineUsers.removeOne(userId);
     UserThread::sockets.remove(userId);
     tcpSocket->close();
-    quit();
+    emit quitThread();
+	qDebug() << "quit thread";
 }
 
 void UserThread::sendMessage(std::string src, std::string text) {
