@@ -204,6 +204,7 @@ bool Dao::addModel(Model* model) {
 			query.bindValue(":username", m->getName().c_str());
 			query.bindValue(":password", m->getPass().c_str());
 			query.exec();
+			delete m;
 			break;
 		}
 			
@@ -213,18 +214,20 @@ bool Dao::addModel(Model* model) {
 			query.bindValue(":name", m->getName().c_str());
 			query.bindValue(":singer", m->getSinger().c_str());
 			query.exec();
+			delete m;
 			break;
 		}
 
 		case comment: {
 			CommentModel *m = dynamic_cast<CommentModel*>(model);
-			query.prepare("INSERT INTO comment (content, userId, musicId, thumb, date) VALUES (:content, :userId, :musicId, :thumb, :date)");
+			query.prepare("INSERT INTO comment (content, userId, musicId) VALUES (:content, :userId, :musicId)");
 			query.bindValue(":content", m->getContent().c_str());
 			query.bindValue(":userId", m->getUserId());
 			query.bindValue(":musicId", m->getMusicId());
-			query.bindValue(":thumb", m->getThumb());
-			query.bindValue(":date", m->getDate().c_str());
+			//query.bindValue(":thumb", m->getThumb());
+			//query.bindValue(":date", m->getDate().c_str());
 			query.exec();
+			delete m;
 			break;
 		}
 		default: return false;

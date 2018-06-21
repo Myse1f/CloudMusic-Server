@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = CloudMusic1.0.0
-DISTDIR = /root/myself/c/CloudMusic/.tmp/CloudMusic1.0.0
+DISTDIR = /home/zjuair/CloudMusic/.tmp/CloudMusic1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/usr/local/Qt-5.8.0/lib
 LIBS          = $(SUBLIBS) -L/usr/local/lib/ -lprotobuf -L/usr/local/Qt-5.8.0/lib -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Sql -lQt5Core -lpthread 
@@ -739,7 +739,7 @@ moc_Server.cpp: /usr/local/Qt-5.8.0/include/QtCore/QtCore \
 		Server.h \
 		moc_predefs.h \
 		/usr/local/Qt-5.8.0/bin/moc
-	/usr/local/Qt-5.8.0/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Qt-5.8.0/mkspecs/linux-g++ -I/root/myself/c/CloudMusic -I/root/myself/c/CloudMusic -I/usr/local/include -I/usr/local/Qt-5.8.0/include -I/usr/local/Qt-5.8.0/include/QtWidgets -I/usr/local/Qt-5.8.0/include/QtGui -I/usr/local/Qt-5.8.0/include/QtNetwork -I/usr/local/Qt-5.8.0/include/QtSql -I/usr/local/Qt-5.8.0/include/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Server.h -o moc_Server.cpp
+	/usr/local/Qt-5.8.0/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Qt-5.8.0/mkspecs/linux-g++ -I/home/zjuair/CloudMusic -I/home/zjuair/CloudMusic -I/usr/local/include -I/usr/local/Qt-5.8.0/include -I/usr/local/Qt-5.8.0/include/QtWidgets -I/usr/local/Qt-5.8.0/include/QtGui -I/usr/local/Qt-5.8.0/include/QtNetwork -I/usr/local/Qt-5.8.0/include/QtSql -I/usr/local/Qt-5.8.0/include/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Server.h -o moc_Server.cpp
 
 moc_UserThread.cpp: /usr/local/Qt-5.8.0/include/QtCore/QtCore \
 		/usr/local/Qt-5.8.0/include/QtCore/QtCoreDepends \
@@ -942,7 +942,7 @@ moc_UserThread.cpp: /usr/local/Qt-5.8.0/include/QtCore/QtCore \
 		UserThread.h \
 		moc_predefs.h \
 		/usr/local/Qt-5.8.0/bin/moc
-	/usr/local/Qt-5.8.0/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Qt-5.8.0/mkspecs/linux-g++ -I/root/myself/c/CloudMusic -I/root/myself/c/CloudMusic -I/usr/local/include -I/usr/local/Qt-5.8.0/include -I/usr/local/Qt-5.8.0/include/QtWidgets -I/usr/local/Qt-5.8.0/include/QtGui -I/usr/local/Qt-5.8.0/include/QtNetwork -I/usr/local/Qt-5.8.0/include/QtSql -I/usr/local/Qt-5.8.0/include/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include UserThread.h -o moc_UserThread.cpp
+	/usr/local/Qt-5.8.0/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Qt-5.8.0/mkspecs/linux-g++ -I/home/zjuair/CloudMusic -I/home/zjuair/CloudMusic -I/usr/local/include -I/usr/local/Qt-5.8.0/include -I/usr/local/Qt-5.8.0/include/QtWidgets -I/usr/local/Qt-5.8.0/include/QtGui -I/usr/local/Qt-5.8.0/include/QtNetwork -I/usr/local/Qt-5.8.0/include/QtSql -I/usr/local/Qt-5.8.0/include/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include UserThread.h -o moc_UserThread.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:

@@ -239,7 +239,7 @@ void UserThread::handlePackage() {
                 std::string musicname = commentInfo.musicname();
                 Model *um = database.getModelByName(user, username.c_str());
                 Model *mm = database.getModelByName(music, musicname.c_str());
-                Model *m = new CommentModel(commentInfo.content(), um->getId(), mm->getId(), 0, commentInfo.date());
+                Model *m = new CommentModel(commentInfo.content(), um->getId(), mm->getId(), 0, "");
               	qDebug() << "User" << um->getId() << " comment in music " << mm->getId() << " with " << commentInfo.content().c_str();
 				database.addModel(m);
                 delete um; delete mm; delete m;
