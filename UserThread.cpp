@@ -132,6 +132,8 @@ void UserThread::handlePackage() {
                     delete m;
 					m = database.getModelByName(user,username.c_str());
 					userId = m->getId();
+                    UserThread::onlineUsers.push_back(userId);
+                    UserThread::sockets.insert(userId, socketDescriptor);
 					Header *header = ret.mutable_header();
                     header->set_type(Header::REPONSE);
                     header->set_resource(Header::REGISTER);
@@ -238,9 +240,9 @@ void UserThread::handlePackage() {
                 std::string musicname = commentInfo.musicname();
                 Model *um = database.getModelByName(user, username.c_str());
                 Model *mm = database.getModelByName(music, musicname.c_str());
-                Model *m = new CommentModel(commentInfo.content(), um->getId(), mm->getId(), 0, commentInfo.date());
+                Model *m = new CommentModel(commentInfo.content(), um->getId(), mm->getId(), 0, "");
               	qDebug() << "User" << um->getId() << " comment in music " << mm->getId() << " with " << commentInfo.content().c_str();
-				database.addModel(m);
+				qDebug() << "Add comment " << database.addModel(m);
                 delete um; delete mm; delete m;
                 Header *header = ret.mutable_header();
                 header->set_type(Header::REPONSE);
@@ -284,13 +286,14 @@ void UserThread::handlePackage() {
                 delete m;
                 for(std::vector<int>::iterator it = commentIdVector.begin(); it!=commentIdVector.end(); it++) {
                     m = database.getModelById(comment, *it);
+					qDebug() << "Fetch comment" << *it << dynamic_cast<CommentModel*>(m)->getContent().c_str() << "by" << dynamic_cast<CommentModel*>(m)->getUserId();
                     CommentInfo *ci = cl.add_commentinfo();
-                    ci->set_id(m->getId());
+                    //ci->set_id(m->getId());
                     ci->set_content(dynamic_cast<CommentModel*>(m)->getContent());
                     Model *um = database.getModelById(user, dynamic_cast<CommentModel*>(m)->getUserId());
-                    ci->set_username(dynamic_cast<UserModel*>(m)->getName());
+                    ci->set_username(dynamic_cast<UserModel*>(um)->getName());
                     delete um;
-                    ci->set_date(dynamic_cast<CommentModel*>(m)->getDate());
+                    //ci->set_date(dynamic_cast<CommentModel*>(m)->getDate());
                     //ci->set_thumb(dynamic_cast<CommentModel*>(m)->getThumb());
                     delete m;
                 }
@@ -348,6 +351,7 @@ void UserThread::handlePackage() {
                 std::string lyric((std::istreambuf_iterator<char>(f2)),  std::istreambuf_iterator<char>());  //read lyric data into string
                 md.set_data(data);
 				md.set_lyric(lyric);
+				qDebug() << musicpath.c_str() << data.length() << lyricpath.c_str() << lyric.length();
                 f1.close();
 				f2.close();
                 Header *header = ret.mutable_header();
@@ -389,13 +393,20 @@ void UserThread::handlePackage() {
         }
 
         case Header::LOGOUT : {
-            if(isLogin())
+            if(isLogin()) {
+            	UserThread::onlineUsers.removeOne(userId);
                 userId = -1;
-            UserThread::onlineUsers.removeOne(userId);
-            Header *header = ret.mutable_header();
-            header->set_type(Header::REPONSE);
-            header->set_resource(Header::LOGOUT);
-            header->set_status(Header::OK);
+            	Header *header = ret.mutable_header();
+            	header->set_type(Header::REPONSE);
+            	header->set_resource(Header::LOGOUT);
+            	header->set_status(Header::OK);
+			}
+			else {
+				Header *header = ret.mutable_header();
+            	header->set_type(Header::REPONSE);
+            	header->set_resource(Header::LOGOUT);
+            	header->set_status(Header::ERROR);
+			}
             break;
         }
 
@@ -504,9 +515,10 @@ void UserThread::handlePackage() {
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_0);
     out.writeRawData(raw.c_str(), raw.length());
-    tcpSocket->write(block);
+    qDebug() << tcpSocket->write(block);
 	tcpSocket->write("##########");
-	//tcpSocket->flush();
+	tcpSocket->flush();
+	qDebug() << "Reponse finish";
 }
 
 bool UserThread::isLogin() {

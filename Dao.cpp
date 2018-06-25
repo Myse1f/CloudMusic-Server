@@ -104,8 +104,8 @@ Model* Dao::getModelById(Type type, int id) {
 			break;
 		}
 		case comment: {
-			query.prepare("SELECT * FROM comment WHERE id = ");
-			query.bindValue("id", id);
+			query.prepare("SELECT * FROM comment WHERE id = :id");
+			query.bindValue(":id", id);
 			query.exec();
 			string content, date;
 			int musicId, userId, thumb;
@@ -113,9 +113,10 @@ Model* Dao::getModelById(Type type, int id) {
 				content = query.value(1).toString().toStdString();
 				musicId = query.value(2).toInt();
 				userId = query.value(3).toInt();
-				thumb = query.value(4).toInt();
-				date = query.value(5).toString().toStdString();
-				p = new CommentModel(content, userId, musicId, thumb, date);
+				qDebug() << content.c_str() << musicId << userId;
+				//thumb = query.value(4).toInt();
+				//date = query.value(5).toString().toStdString();
+				p = new CommentModel(content, userId, musicId, 0, "");
 				p->setId(id);
 			}
 			break;
@@ -218,12 +219,12 @@ bool Dao::addModel(Model* model) {
 
 		case comment: {
 			CommentModel *m = dynamic_cast<CommentModel*>(model);
-			query.prepare("INSERT INTO comment (content, userId, musicId, thumb, date) VALUES (:content, :userId, :musicId, :thumb, :date)");
+			query.prepare("INSERT INTO comment (content, userId, musicId) VALUES (:content, :userId, :musicId)");
 			query.bindValue(":content", m->getContent().c_str());
 			query.bindValue(":userId", m->getUserId());
 			query.bindValue(":musicId", m->getMusicId());
-			query.bindValue(":thumb", m->getThumb());
-			query.bindValue(":date", m->getDate().c_str());
+			//query.bindValue(":thumb", m->getThumb());
+			//query.bindValue(":date", m->getDate().c_str());
 			query.exec();
 			break;
 		}
