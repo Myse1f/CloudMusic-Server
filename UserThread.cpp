@@ -127,11 +127,13 @@ void UserThread::handlePackage() {
                 any.UnpackTo(&userInfo);
                 std::string username = userInfo.username();
                 std::string password = userInfo.password();
+				qDebug() << "Register" << username.c_str() << password.c_str();
                 Model *m = new UserModel(username, password);
                 if(database.addModel(m)) { //OK, this username is not used
                     delete m;
 					m = database.getModelByName(user,username.c_str());
 					userId = m->getId();
+					qDebug() << "UserId :" << userId;
                     UserThread::onlineUsers.push_back(userId);
                     UserThread::sockets.insert(userId, socketDescriptor);
 					Header *header = ret.mutable_header();
@@ -282,6 +284,7 @@ void UserThread::handlePackage() {
                 MusicInfo musicInfo;
                 any.UnpackTo(&musicInfo);
                 Model *m = database.getModelByName(music, musicInfo.name().c_str());
+				assert(m);		
                 std::vector<int> commentIdVector = database.getCommentsByMusicId(m->getId());
                 delete m;
                 for(std::vector<int>::iterator it = commentIdVector.begin(); it!=commentIdVector.end(); it++) {
@@ -395,6 +398,8 @@ void UserThread::handlePackage() {
         case Header::LOGOUT : {
             if(isLogin()) {
             	UserThread::onlineUsers.removeOne(userId);
+                QMap<int, qintptr>::iterator it = UserThread::sockets.find(userId);
+				UserThread::sockets.erase(it);
                 userId = -1;
             	Header *header = ret.mutable_header();
             	header->set_type(Header::REPONSE);
